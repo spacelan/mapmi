@@ -3,8 +3,8 @@
 	background-image: ;
   background-color: #2e77e5;
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   overflow: hidden;
   cursor: pointer;
   background-size: cover;
