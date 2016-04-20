@@ -50,7 +50,7 @@ export default {
   methods: {
     click() {
       this.driving.clearResults()
-      this.driving.search(lstore.location.point, lstore.target.point)
+      this.driving.search(lstore.location, lstore.target.point)
     }
   }
 }
