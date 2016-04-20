@@ -18,11 +18,40 @@
 </template>
 
 <script>
+class NaviControl extends BMap.Control {
+  constructor() {
+    super()
+      // 默认停靠位置和偏移量
+    this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
+    this.defaultOffset = new BMap.Size(30, 80);
+  }
+
+  initialize(map) {
+    let navi = document.getElementById('navi-button')
+      // 添加DOM元素到地图中
+    map.getContainer().appendChild(navi)
+      // 将DOM元素返回
+    return navi
+  }
+}
+
 export default {
+  ready() {
+    setTimeout(() => {
+      map.addControl(new NaviControl())
+      this.driving = new BMap.DrivingRoute(map, {
+        renderOptions: {
+          map: map,
+          autoViewport: true
+        }
+      })
+    }, 0)
+  },
   methods: {
-    click () {
-      alert('开始导航')
+    click() {
+      this.driving.clearResults()
+      this.driving.search(lstore.location.point, lstore.target.point)
     }
   }
-};
+}
 </script>

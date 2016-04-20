@@ -72,8 +72,8 @@ export default {
 
       this.local = new BMap.LocalSearch(map, {
         onSearchComplete(rst) {
-          window.target = rst.getPoi(0)
-          let point = target.point
+          window.lstore.target = rst.getPoi(0)
+          let point = lstore.target.point
           map.centerAndZoom(point, 18)
           map.addOverlay(new BMap.Marker(point))
         }
@@ -93,13 +93,16 @@ export default {
   methods: {
     clear() {
       this.input = ''
+      this.ac.hide()
       map.clearOverlays()
     }
   },
   watch: {
-    input(val, oldVal) {
-      if (val.length > 0 || val !== oldVal) {
+    input(val) {
+      if (val.length > 0) {
         this.ac.search(val)
+      } else {
+        this.ac.hide()
       }
     }
   }
