@@ -2,17 +2,20 @@
   <div id="app">
     <navi></navi>
     <search></search>
+    <geo></geo>
   </div>
 </template>
 
 <script>
 import Navi from './components/navi-button.vue'
 import Search from './components/search-box.vue'
+import Geo from './components/geolocation.vue'
 
 export default {
   components: {
     Navi,
-    Search
+    Search,
+    Geo
   },
   ready() {
     setTimeout(() => {
@@ -26,6 +29,7 @@ export default {
         offset: new BMap.Size(20, 200),
         type: BMAP_NAVIGATION_CONTROL_SMALL
       }))
+      /*
       let loc = new BMap.GeolocationControl({
         anchor: BMAP_ANCHOR_BOTTOM_LEFT,
         offset: new BMap.Size(30, 80),
@@ -40,6 +44,7 @@ export default {
         map.clearOverlays()
       });
       map.addControl(loc)
+      */
     }
   }
 }
