@@ -41,15 +41,66 @@
 </template>
 
 <script>
-module.exports = {
+class SearchControl extends BMap.Control {
+  constructor() {
+    super()
+    this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT
+    this.defaultOffset = new BMap.Size(map.getSize().width / 20, map.getSize().width / 20);
+  }
+
+  initialize(map) {
+    let search = document.getElementById('search-box')
+      // 添加DOM元素到地图中
+    map.getContainer().appendChild(search)
+      // 将DOM元素返回
+    return search
+  }
+}
+
+export default {
   data() {
     return {
       input: ''
     }
   },
+  ready() {
+    setTimeout(() => {
+      this.ac = new BMap.Autocomplete({
+        input: 'search-box',
+        location: map
+      });
+
+      this.local = new BMap.LocalSearch(map, {
+        onSearchComplete(rst) {
+          window.target = rst.getPoi(0)
+          let point = target.point
+          map.centerAndZoom(point, 18)
+          map.addOverlay(new BMap.Marker(point))
+        }
+      });
+
+      this.ac.addEventListener('onconfirm', e => {
+        let value = e.item.value
+        let searchValue = value.province + value.city + value.district + value.street + value.streetNumber + value.business
+        this.input = searchValue
+        map.clearOverlays()
+        this.local.search(searchValue)
+      });
+
+      map.addControl(new SearchControl())
+    }, 0)
+  },
   methods: {
     clear() {
       this.input = ''
+      map.clearOverlays()
+    }
+  },
+  watch: {
+    input(val, oldVal) {
+      if (val.length > 0 || val !== oldVal) {
+        this.ac.search(val)
+      }
     }
   }
 }

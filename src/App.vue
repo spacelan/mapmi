@@ -26,22 +26,6 @@ class NaviControl extends BMap.Control {
   }
 }
 
-class SearchControl extends BMap.Control {
-  constructor() {
-    super()
-    this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT
-    this.defaultOffset = new BMap.Size(map.getSize().width / 20, map.getSize().width / 20);
-  }
-
-  initialize(map) {
-    let search = document.getElementById('search-box')
-      // 添加DOM元素到地图中
-    map.getContainer().appendChild(search)
-      // 将DOM元素返回
-    return search
-  }
-}
-
 export default {
   components: {
     Navi,
@@ -67,7 +51,7 @@ export default {
         locationIcon: new BMap.Icon('/static/loc.png', new BMap.Size(26, 26))
       }))
       map.addControl(new NaviControl())
-      map.addControl(new SearchControl())
+      // map.addControl(new SearchControl())
     }
   }
 }
