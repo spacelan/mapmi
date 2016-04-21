@@ -53,8 +53,11 @@ export default {
   },
   ready() {
     setTimeout(() => {
-      this.get()
+      this.store.location = new BMap.Point(116.404, 39.915)
       this.start()
+      setTimeout(() => {
+        this.get()
+      }, 1000)
       map.addControl(new GeoControl())
     }, 0)
   },
@@ -131,13 +134,22 @@ export default {
   },
   watch: {
     'store.location' (val) {
-      if (!this.marker) {
-        this.marker = new BMap.Marker(val, {
-          icon: new BMap.Icon('/static/loc.png', new BMap.Size(26, 26))
-        })
-        map.addOverlay(this.marker)
+      if (val) {
+        if (!this.marker) {
+          this.marker = new BMap.Marker(val, {
+            icon: new BMap.Icon('/static/loc.png', new BMap.Size(26, 26))
+          })
+          map.addOverlay(this.marker)
+        }
+        this.marker.setPosition(val)
       }
-      this.marker.setPosition(val)
+    },
+    'store.arrPois' (val) {
+      if (val) {
+        this.stop()
+      } else {
+        this.start()
+      }
     }
   }
 }

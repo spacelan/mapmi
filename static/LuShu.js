@@ -335,7 +335,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
             this._overlay && this._map.removeOverlay(this._overlay);
             var marker = new BMap.Marker(this._path[0]);
             this._opts.icon && marker.setIcon(this._opts.icon);
-            this._map.addOverlay(marker);
+            //this._map.addOverlay(marker);
             marker.setAnimation(BMAP_ANIMATION_DROP);
             this._marker = marker;
         },
@@ -429,7 +429,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
                             if(me._opts.autoView){
                                 if(!me._map.getBounds().containsPoint(pos)){
                                     me._map.setCenter(pos);
-                                }   
+                                }
                             }
                         }
                         //正在移动
@@ -438,9 +438,9 @@ var BMapLib = window.BMapLib = BMapLib || {};
                         //设置自定义overlay的位置
                         me._setInfoWin(pos);
 
-                        
+                        window.lstore.location = pos;
 
-                        
+
 	                }
 	        },timer);
         },
@@ -452,7 +452,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
             var deg = 0;
             //start!
             curPos =  me._map.pointToPixel(curPos);
-            targetPos =  me._map.pointToPixel(targetPos);   
+            targetPos =  me._map.pointToPixel(targetPos);
 
             if(targetPos.x != curPos.x){
                     var tan = (targetPos.y - curPos.y)/(targetPos.x - curPos.x),
@@ -466,7 +466,7 @@ var BMapLib = window.BMapLib = BMapLib || {};
                         deg = -deg;
                     }
 
-                    me._marker.setRotation(-deg);   
+                    me._marker.setRotation(-deg);
 
             }else {
                     var disy = targetPos.y- curPos.y ;
@@ -475,13 +475,13 @@ var BMapLib = window.BMapLib = BMapLib || {};
                         bias=-1
                     else
                         bias = 1
-                    me._marker.setRotation(-bias * 90);  
+                    me._marker.setRotation(-bias * 90);
             }
             return;
 
         },
 
-        linePixellength : function(from,to){ 
+        linePixellength : function(from,to){
             return Math.sqrt(Math.abs(from.x- to.x) * Math.abs(from.x- to.x) + Math.abs(from.y- to.y) * Math.abs(from.y- to.y) );
 
         },

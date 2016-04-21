@@ -36,11 +36,11 @@
 </style>
 
 <template>
-  <div id="navi-box">
+  <div id="navi-box" v-show="canShow">
 	  <div id="route-button" @click.prevent="route" v-show="canRoute">到这里去</div>
     <div id="navi" v-show="canNavi">
-      <div class="navi-button" @click.prevent="toggle">开始导航</div>
-      <div class="navi-button" @click.prevent="stop">结束导航</div>
+      <div class="navi-button" @click.prevent="toggle">{{!isNavi ? '开始导航' : '暂停导航'}}</div>
+      <div class="navi-button" @click.prevent="clear">结束导航</div>
     </div>
   </div>
 </template>
@@ -69,13 +69,18 @@ export default {
   data() {
     return {
       store: lstore,
-      canNavi: false,
       isNavi: false
     }
   },
   computed: {
+    canShow() {
+      return this.store.location !== null && this.store.target !== null
+    },
     canRoute() {
-      return this.store.location && this.store.target
+      return this.store.arrPois == null
+    },
+    canNavi() {
+      return this.store.arrPois !== null
     }
   },
   ready() {
@@ -98,7 +103,7 @@ export default {
     },
     toggle() {
       if (this.isNavi) {
-        this.lushu || this.lushu.pause()
+        this.lushu && this.lushu.pause()
         this.isNavi = false
       } else {
         if (!this.lushu) {
@@ -117,7 +122,9 @@ export default {
       }
     },
     stop() {
-      this.lushu || this.lushu.stop()
+      this.lushu && this.lushu.stop() && this.lushu.clear()
+      this.lushu = null
+      this.isNavi = false
     },
     addOverlay(val) {
       this.polyline = new BMap.Polyline(val, {
@@ -134,10 +141,13 @@ export default {
       map.removeOverlay(this.polyline)
       map.removeOverlay(this.begin)
       map.removeOverlay(this.end)
+    },
+    clear() {
+      this.store.arrPois = null
     }
   },
   watch: {
-    canRoute(val) {
+    canShow(val) {
       if (!val) {
         this.store.arrPois = null
       }
@@ -146,10 +156,12 @@ export default {
       this.removeOverlay()
       if (val) {
         this.addOverlay(val)
-        this.canNavi = true
       } else {
-        this.canNavi = false
+        this.stop()
       }
+    },
+    'store.target'(val) {
+      this.clear()
     }
   }
 }
