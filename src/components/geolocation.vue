@@ -26,6 +26,8 @@
 </style>
 
 <script>
+import lstore from '../store.js'
+
 class GeoControl extends BMap.Control {
   constructor() {
     super()
@@ -45,7 +47,8 @@ class GeoControl extends BMap.Control {
 export default {
   data() {
     return {
-      state: 'default'
+      state: 'default',
+      store: lstore
     }
   },
   ready() {
@@ -54,13 +57,15 @@ export default {
         this.state = 'default'
         let point = new BMap.Point(position.coords.longitude, position.coords.latitude)
         this.convertCoords(point).then(point => {
-          this.addMarker(point)
-        }).catch(() => {
-          this.removeMarker()
+          this.success(point)
+        }).catch(err => {
+          console.log(err)
+          this.fail()
           this.state = 'default'
         })
       }, () => {
-        this.removeMarker()
+        console.log('Geolocation Timeout')
+        this.fail()
         this.state = 'default'
       }, {
         enableHighAccuracy: true,
@@ -78,14 +83,16 @@ export default {
         this.state = 'success'
         let point = new BMap.Point(position.coords.longitude, position.coords.latitude)
         this.convertCoords(point).then(point => {
-          this.addMarker(point)
+          this.success(point)
           map.centerAndZoom(point, 16);
-        }).catch(() => {
-          this.removeMarker()
+        }).catch(err => {
+          console.log(err)
+          this.fail()
           this.state = 'default'
         })
       }, () => {
-        this.removeMarker()
+        console.log('Geolocation Timeout')
+        this.fail()
         this.state = 'default'
       }, {
         enableHighAccuracy: true,
@@ -100,26 +107,38 @@ export default {
       }, 0)
     },
     addMarker(point) {
-      window.lstore.location = point
       this.removeMarker()
       this.marker = new BMap.Marker(point, {
         icon: new BMap.Icon('/static/loc.png', new BMap.Size(26, 26))
       })
       map.addOverlay(this.marker)
     },
+    success(point) {
+      lstore.location = point
+      this.removeMarker()
+      this.addMarker(point)
+    },
+    fail() {
+      lstore.location = null
+      this.removeMarker()
+    },
     convertCoords(point) {
-      return Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         let ok = false
         new BMap.Convertor().translate([point], 1, 5, data => {
-          if (data.status === 0 && !ok) {
+          if (!ok) {
             ok = true
-            resolve(data.points[0])
+            if (data.status === 0) {
+              resolve(data.points[0])
+            } else {
+              reject('Convert Timeout')
+            }
           }
         })
         setTimeout(() => {
           if (!ok) {
             ok = true
-            reject()
+            reject('Convert Timeout')
           }
         }, 5000)
       })

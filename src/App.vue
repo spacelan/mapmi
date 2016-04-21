@@ -27,7 +27,7 @@ export default {
       map.addControl(new BMap.NavigationControl({
         anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
         offset: new BMap.Size(20, 200),
-        type: BMAP_NAVIGATION_CONTROL_SMALL
+        type: BMAP_NAVIGATION_CONTROL_ZOOM
       }))
       /*
       let loc = new BMap.GeolocationControl({

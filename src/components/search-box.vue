@@ -35,12 +35,14 @@
 
 <template>
 <div id="search-box">
-  <input id="search-input" v-model="input" type="text">
+  <input id="search-input" v-model="input" @click.prevent="show" type="text">
   <div id="search-clear" @click.prevent="clear" v-show="input.length > 0"></div>
 </div>
 </template>
 
 <script>
+import lstore from '../store.js'
+
 class SearchControl extends BMap.Control {
   constructor() {
     super()
@@ -60,7 +62,8 @@ class SearchControl extends BMap.Control {
 export default {
   data() {
     return {
-      input: ''
+      input: '',
+      store: lstore
     }
   },
   ready() {
@@ -71,11 +74,11 @@ export default {
       });
 
       this.local = new BMap.LocalSearch(map, {
-        onSearchComplete(rst) {
-          window.lstore.target = rst.getPoi(0)
+        onSearchComplete: (rst) => {
+          lstore.target = rst.getPoi(0)
           let point = lstore.target.point
           map.centerAndZoom(point, 18)
-          map.addOverlay(new BMap.Marker(point))
+          this.addMarker(point)
         }
       });
 
@@ -83,7 +86,7 @@ export default {
         let value = e.item.value
         let searchValue = value.province + value.city + value.district + value.street + value.streetNumber + value.business
         this.input = searchValue
-        map.clearOverlays()
+        this.removeMarker()
         this.local.search(searchValue)
       });
 
@@ -94,7 +97,24 @@ export default {
     clear() {
       this.input = ''
       this.ac.hide()
-      map.clearOverlays()
+      lstore.target = null
+      this.removeMarker()
+    },
+    show() {
+      if (this.input.length > 0) {
+        this.ac.show()
+      }
+    },
+    removeMarker() {
+      let marker = this.marker
+      setTimeout(() => {
+        map.removeOverlay(marker)
+      }, 0)
+    },
+    addMarker(point) {
+      this.removeMarker()
+      this.marker = new BMap.Marker(point)
+      map.addOverlay(this.marker)
     }
   },
   watch: {
@@ -102,7 +122,7 @@ export default {
       if (val.length > 0) {
         this.ac.search(val)
       } else {
-        this.ac.hide()
+        this.clear()
       }
     }
   }

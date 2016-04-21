@@ -14,10 +14,12 @@
 </style>
 
 <template>
-	<div id="navi-button" @click.prevent="click">导航</div>
+	<div id="navi-button" @click.prevent="click" v-show="canNavi">导航</div>
 </template>
 
 <script>
+import lstore from '../store.js'
+
 class NaviControl extends BMap.Control {
   constructor() {
     super()
@@ -36,6 +38,16 @@ class NaviControl extends BMap.Control {
 }
 
 export default {
+  data() {
+    return {
+      store: lstore
+    }
+  },
+  computed: {
+    canNavi() {
+      return this.store.location && this.store.target
+    }
+  },
   ready() {
     setTimeout(() => {
       map.addControl(new NaviControl())
@@ -50,7 +62,14 @@ export default {
   methods: {
     click() {
       this.driving.clearResults()
-      this.driving.search(lstore.location, lstore.target.point)
+      this.driving.search(this.store.location, this.store.target.point)
+    }
+  },
+  watch: {
+    canNavi(val) {
+      if (!val) {
+        this.driving.clearResults()
+      }
     }
   }
 }
