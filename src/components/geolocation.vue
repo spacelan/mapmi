@@ -133,7 +133,7 @@ export default {
     'store.location' (val) {
       if (!this.marker) {
         this.marker = new BMap.Marker(val, {
-          icon: new BMap.Icon('/static/loc.png', new BMap.Size(26, 26))
+          icon: new BMap.Icon('./static/loc.png', new BMap.Size(26, 26))
         })
         map.addOverlay(this.marker)
       }

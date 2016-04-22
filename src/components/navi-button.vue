@@ -104,7 +104,7 @@ export default {
         if (!this.lushu) {
           this.lushu = new BMapLib.LuShu(map, this.store.arrPois, {
             autoView: true,
-            icon: new BMap.Icon('/static/loc.png', new BMap.Size(26, 26)),
+            icon: new BMap.Icon('./static/loc.png', new BMap.Size(26, 26)),
             speed: 4500,
             enableRotation: true,
             end: () => {

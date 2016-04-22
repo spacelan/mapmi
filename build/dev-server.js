@@ -17,7 +17,7 @@ var app = express()
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: webpackConfig.output.publicPath,
+  publicPath: '/'/*webpackConfig.output.publicPath*/,
   stats: {
     colors: true,
     chunks: false
@@ -53,7 +53,7 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-var staticPath = path.posix.join(config.build.assetsPublicPath, config.build.assetsSubDirectory)
+var staticPath = path.posix.join('/'/*config.build.assetsPublicPath*/, config.build.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
 module.exports = app.listen(port, function (err) {
