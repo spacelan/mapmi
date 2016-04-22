@@ -35,7 +35,7 @@
 
 <template>
 <div id="search-box">
-  <input id="search-input" v-model="input" @click.prevent="show" type="text">
+  <input id="search-input" v-model="input" @click.prevent="show" v-on:keyup.enter="submit" type="text">
   <div id="search-clear" @click.prevent="clear" v-show="input.length > 0"></div>
 </div>
 </template>
@@ -52,6 +52,9 @@ class SearchControl extends BMap.Control {
 
   initialize(map) {
     let search = document.getElementById('search-box')
+    map.addEventListener('touchstart', () => {
+      search.blur()
+    })
       // 添加DOM元素到地图中
     map.getContainer().appendChild(search)
       // 将DOM元素返回
@@ -103,6 +106,13 @@ export default {
     show() {
       if (this.input.length > 0) {
         this.ac.show()
+      }
+    },
+    submit() {
+      if (this.input.length > 0) {
+        document.getElementById('search-input').blur()
+        this.removeMarker()
+        this.local.search(this.input)
       }
     },
     removeMarker() {
