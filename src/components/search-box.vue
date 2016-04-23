@@ -26,7 +26,7 @@
   width: 27px;
   height: 46px;
   top: 0;
-  background: url("/static/cancel.png");
+  background: url("../assets/cancel.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
