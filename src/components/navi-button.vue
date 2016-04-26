@@ -32,6 +32,7 @@
   height: 100%;
   border: 0;
   float: left;
+  cursor: pointer;
 }
 </style>
 

@@ -6,7 +6,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.webapp",
       "src": "",
       "projectGuid": "75b17702-caba-44bb-8b75-faf0b06863c7",
-      "lastModifiedDate": 1461314102339,
+      "lastModifiedDate": 1461395472357,
       "creationDate": 1461306946572
     },
     "sourceDirectory": "dist",
@@ -82,7 +82,7 @@
           "deployment-target": "8.0",
           "ios-configuration": "adhoc"
         },
-        "isActive_": false,
+        "isActive_": true,
         "appName_": "mapmi",
         "appID_": "not.yet.specified",
         "appAccess_": {

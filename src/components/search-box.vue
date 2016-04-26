@@ -91,6 +91,7 @@ export default {
         this.input = searchValue
         this.removeMarker()
         this.local.search(searchValue)
+        // document.getElementById('search-input').blur()
       });
 
       map.addControl(new SearchControl())
