@@ -12,9 +12,9 @@
   position: absolute;
   right: 30px;
   bottom: 80px;
-  background-image: ;
-  background-color: #2e77e5;
-  background-size: cover;
+  background-image: url("../assets/icon_route_car_white.png");
+  background-color: #3385ff;
+  background-size: 35px 35px;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -23,25 +23,50 @@
   position: absolute;
   bottom: 0px;
   width: 100%;
-  height: 50px;
+  height: 40px;
   background: #fff;
 }
 
-.navi-button {
+#navi-button1 {
   width: 50%;
-  height: 100%;
-  border: 0;
-  float: left;
+  height: 50%;
+  position: absolute;
+  left: 0px;
+  top: 25%;
   cursor: pointer;
+  text-align: center;
+  color: #3385ff;
+  border-right: 1px solid #aaa;
+}
+
+#navi-button2 {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  right: 0px;
+  top: 25%;
+  cursor: pointer;
+  text-align: center;
+  color: #333;
+}
+
+#navi-icon {
+  height: 90%;
+  vertical-align: middle;
 }
 </style>
 
 <template>
   <div id="navi-box" v-show="canShow">
-	  <div id="route-button" @click.prevent="route" v-show="canRoute">到这里去</div>
+	  <div id="route-button" @click.prevent="route" v-show="canRoute"></div>
     <div id="navi" v-show="canNavi">
-      <div class="navi-button" @click.prevent="toggle">{{!isNavi ? '开始导航' : '暂停导航'}}</div>
-      <div class="navi-button" @click.prevent="clear">结束导航</div>
+      <div id="navi-button1" @click.prevent="toggle">
+        <img id="navi-icon" src="../assets/route_nav_icon.png">
+        <span>{{!isNavi ? '开始导航' : '暂停导航'}}</span>
+      </div>
+      <div id="navi-button2" @click.prevent="clear">
+        <span>结束导航</span>
+      </div>
     </div>
   </div>
 </template>
@@ -132,9 +157,26 @@ export default {
         strokeColor: '#111'
       })
       map.addOverlay(this.polyline)
-      this.begin = new BMap.Marker(this.store.location)
+
+      let icon
+      icon = new BMap.Icon('./static/markers.png', new BMap.Size(25, 40), {
+        anchor: new BMap.Size(12, 40),
+        imageOffset: new BMap.Size(-200 - 25 * 0, -139),
+        imageSize: new BMap.Size(300, 300)
+      })
+      this.begin = new BMap.Marker(this.store.location, {
+        icon: icon
+      })
       map.addOverlay(this.begin)
-      this.end = new BMap.Marker(this.store.target.point)
+
+      icon = new BMap.Icon('./static/markers.png', new BMap.Size(25, 40), {
+        anchor: new BMap.Size(12, 40),
+        imageOffset: new BMap.Size(-200 - 25 * 1, -139),
+        imageSize: new BMap.Size(300, 300)
+      })
+      this.end = new BMap.Marker(this.store.target.point, {
+        icon: icon
+      })
       map.addOverlay(this.end)
       map.setViewport(val)
     },

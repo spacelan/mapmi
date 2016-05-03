@@ -4,7 +4,7 @@
   height: 46px;
   border-radius: 2px;
   background: #fff;
-  box-shadow: 0px 2px 4px #aaaaaa;
+  box-shadow: 0px 2px 4px #aaa;
 }
 #search-input {
   box-sizing: border-box;
@@ -12,7 +12,7 @@
   padding: 10px 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  font-size: 1em;
+  font-size: 0.9em;
   width: 90%;
   height: 46px;
   color: #333;
@@ -26,8 +26,8 @@
   width: 27px;
   height: 46px;
   top: 0;
-  background: url("../assets/cancel.png");
-  background-size: contain;
+  background: url("../assets/search_delete.png");
+  background-size: 20px 20px;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -35,7 +35,7 @@
 
 <template>
 <div id="search-box">
-  <input id="search-input" v-model="input" @click.prevent="show" v-on:keyup.enter="submit" type="text">
+  <input id="search-input" v-model="input" @click.prevent="show" v-on:keyup.enter="submit" type="text" placeholder="搜地点，找路线">
   <div id="search-clear" @click.prevent="clear" v-show="input.length > 0"></div>
 </div>
 </template>
@@ -118,13 +118,19 @@ export default {
     },
     removeMarker() {
       let marker = this.marker
+      this.marker = null
       setTimeout(() => {
         map.removeOverlay(marker)
       }, 0)
     },
     addMarker(point) {
       this.removeMarker()
-      this.marker = new BMap.Marker(point)
+      let icon = new BMap.Icon('./static/found_marker.png', new BMap.Size(28, 40), {
+        anchor: new BMap.Size(14, 40)
+      })
+      this.marker = new BMap.Marker(point, {
+        icon: icon
+      })
       map.addOverlay(this.marker)
     }
   },
@@ -134,6 +140,13 @@ export default {
         this.ac.search(val)
       } else {
         this.clear()
+      }
+    },
+    'store.arrPois' (val) {
+      if (val) {
+        this.removeMarker()
+      } else {
+        this.addMarker(lstore.target.point)
       }
     }
   }

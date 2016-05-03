@@ -29,22 +29,6 @@ export default {
         offset: new BMap.Size(20, 200),
         type: BMAP_NAVIGATION_CONTROL_ZOOM
       }))
-      /*
-      let loc = new BMap.GeolocationControl({
-        anchor: BMAP_ANCHOR_BOTTOM_LEFT,
-        offset: new BMap.Size(30, 80),
-        showAddressBar: false,
-        enableAutoLocation: true,
-        locationIcon: new BMap.Icon('/static/loc.png', new BMap.Size(26, 26))
-      })
-      loc.addEventListener('locationSuccess', e => {
-        window.lstore.location = e
-      });
-      loc.addEventListener('locationError', e => {
-        map.clearOverlays()
-      });
-      map.addControl(loc)
-      */
     }
   }
 }
