@@ -13,6 +13,7 @@
   left: 0px;
   top: 0px;
   background-color: #eee;
+  overflow: hidden;
 }
 
 #nuomiFrame {
