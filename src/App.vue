@@ -3,6 +3,7 @@
     <navi></navi>
     <search></search>
     <geo></geo>
+    <Nuomi></Nuomi>
   </div>
 </template>
 
@@ -10,12 +11,14 @@
 import Navi from './components/navi-button.vue'
 import Search from './components/search-box.vue'
 import Geo from './components/geolocation.vue'
+import Nuomi from './components/nuomi-frame.vue'
 
 export default {
   components: {
     Navi,
     Search,
-    Geo
+    Geo,
+    Nuomi
   },
   ready() {
     setTimeout(() => {

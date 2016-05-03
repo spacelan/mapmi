@@ -140,6 +140,7 @@ export default {
             enableRotation: true,
             end: () => {
               this.isNavi = false
+              this.store.nuomiSrc = 'http://m.nuomi.com'
             }
           });
         }
