@@ -78,10 +78,13 @@ export default {
 
       this.local = new BMap.LocalSearch(map, {
         onSearchComplete: (rst) => {
-          lstore.target = rst.getPoi(0)
-          let point = lstore.target.point
-          map.centerAndZoom(point, 18)
-          this.addMarker(point)
+          let target = rst.getPoi(0)
+          if (target) {
+            lstore.target = target
+            let point = lstore.target.point
+            map.centerAndZoom(point, 18)
+            this.addMarker(point)
+          }
         }
       });
 

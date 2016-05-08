@@ -135,11 +135,18 @@ export default {
         if (!this.lushu) {
           this.lushu = new BMapLib.LuShu(map, this.store.arrPois, {
             autoView: true,
-            icon: new BMap.Icon('./static/loc.png', new BMap.Size(26, 26)),
             speed: 4500,
             enableRotation: true,
             end: () => {
+              map.setViewport({
+                center: this.store.target.point,
+                zoom: map.getZoom()
+              })
               this.isNavi = false
+              this.store.terminal = this.store.target
+              setTimeout(() => {
+                this.toRedBag()
+              }, 500)
             }
           });
         }
@@ -184,6 +191,18 @@ export default {
       map.removeOverlay(this.polyline)
       map.removeOverlay(this.begin)
       map.removeOverlay(this.end)
+    },
+    toRedBag() {
+      if (this.end) {
+        let icon = new BMap.Icon('./static/red_bag.gif', new BMap.Size(100, 100), {
+          size: new BMap.Size(100, 100)
+        })
+        this.end.setIcon(icon)
+        this.end.setTop(true)
+        this.end.addEventListener('click', e => {
+          this.store.isCouponClicked = true
+        })
+      }
     },
     clear() {
       this.store.arrPois = null
