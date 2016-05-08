@@ -161,7 +161,7 @@ export default {
     },
     addOverlay(val) {
       this.polyline = new BMap.Polyline(val, {
-        strokeColor: '#111'
+        strokeColor: '#3385ff'
       })
       map.addOverlay(this.polyline)
 
