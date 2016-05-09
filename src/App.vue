@@ -4,12 +4,12 @@
     <navi></navi>
     <search></search>
     <geo></geo>
-    <Nuomi></Nuomi>
+    <nuomi></nuomi>
   </div>
 </template>
 
 <style>
-#app #map{
+#app, #map{
   position: absolute;
   top: 0;
   bottom: 0;

@@ -1,36 +1,31 @@
 <template>
-  <div id="nuomiDiv" v-show="canShow"> 
-    <div id="frameDiv">
-      <!--<div id="nuomiHeader"></div>-->
-      <iframe id="nuomiFrame" :src="src" scrolling="no"></iframe>
+  <div id="nuomiDiv" v-show="canShow">
+    <div id="frameContainer">
+      <iframe id="nuomiFrame" :src="src"></iframe>
     </div>
     <div id="returnButton" @click.prevent="returnToMap">返回地图</div>
   </div>
 </template>
 
 <style>
-#frameDiv {
+#frameContainer {
   position: absolute;
   top: 0;
-  bottom: 0;
   left: 0;
+  bottom: 0;
   right: 0;
   -webkit-overflow-scrolling: touch;
   overflow: scroll;
   background-color: #eee;
 }
 
-#nuomiHeader {
-  width: 100%;
-  height: 2%;
-  background-color: #ff4683;
-}
-
 #nuomiFrame {
   width: 1px;
-  min-width: 100%;
   height: 1px;
+  min-width: 100%;
   min-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 #returnButton {
