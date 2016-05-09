@@ -6,7 +6,8 @@ window.lstore = window.lstore || {
   target: null,
   arrPois: null,
   terminal: null,
-  isCouponClicked: null
+  isCouponClicked: null,
+  nuomiSrc: null
 }
 
 export default window.lstore
