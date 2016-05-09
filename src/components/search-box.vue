@@ -34,7 +34,7 @@
 </style>
 
 <template>
-<div id="search-box">
+<div id="search-box" v-show="canShow">
   <input id="search-input" v-model="input" @click.prevent="show" v-on:keyup.enter="submit" type="text" placeholder="搜地点，找路线">
   <div id="search-clear" @click.prevent="clear" v-show="input.length > 0"></div>
 </div>
@@ -69,6 +69,11 @@ export default {
       store: lstore
     }
   },
+  computed: {
+    canShow() {
+      return !(this.store.terminal || this.store.nuomiSrc)
+    }
+  },
   ready() {
     setTimeout(() => {
       this.ac = new BMap.Autocomplete({
@@ -81,7 +86,7 @@ export default {
           let target = rst.getPoi(0)
           if (target) {
             lstore.target = target
-            let point = lstore.target.point
+            let point = target.point
             map.centerAndZoom(point, 18)
             this.addMarker(point)
           }
@@ -148,9 +153,17 @@ export default {
     'store.arrPois' (val) {
       if (val) {
         this.removeMarker()
-      } else {
-        this.addMarker(lstore.target.point)
+      } else if (this.store.target) {
+        this.addMarker(this.store.target.point)
       }
+    },
+    'store.target' (val) {
+      if (!val) {
+        this.input = ''
+      }
+    },
+    canShow(val) {
+      console.log('canShow', val)
     }
   }
 }
