@@ -73,12 +73,12 @@
 #headerRight {
   position: absolute;
   float: right;
-  top: 20px;
-  right: 10px;
-  width: 40px;
-  height: 40px;
-  background-image: url(../assets/share.jpg);
-  background-size: 40px 40px;
+  top: 25px;
+  right: 15px;
+  width: 25px;
+  height: 25px;
+  background-image: url(../assets/share.png);
+  background-size: 25px 25px;
   background-repeat: no-repeat;
   background-position: center center;
 
