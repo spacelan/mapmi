@@ -1,5 +1,5 @@
 <template>
-  <div id="nuomiDiv" v-show="canShow">
+  <div id="nuomiDiv" v-if="canShow">
     <div id="frameContainer">
       <iframe id="nuomiFrame" :src="src"></iframe>
     </div>

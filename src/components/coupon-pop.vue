@@ -2,8 +2,8 @@
   <div v-if="canShow">
     <div id="terminalHeader">
       <div id="headerReturn" @click.prevent="exit"></div>
-      <div id="headerTitle">{{header_title}}</div>
-      <div id="headerSecondTitle">{{header_second_title}}</div>
+      <div id="headerTitle">驾御者</div>
+      <div id="headerSecondTitle">交通通畅，多了些时间，多了些生活</div>
       <div id="headerRight"></div>
     </div>
     <div id="terminalCoupon" v-if="canShowCoupon">
@@ -258,7 +258,7 @@
 }
 
 .description1 {
-  margin: 95px 95px;
+  margin: 0 95px;
   font-size: 1rem;
   font-weight: 600;
   height: 34px;
@@ -499,8 +499,6 @@
 export default {
   data() {
       return {
-        header_title: '驾御者',
-        header_second_title: '交通通畅，多了些时间，多了些生活',
         position_name: '大鸭梨',
         position_last_name: '西三旗店',
         distance: '215',

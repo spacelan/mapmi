@@ -7,6 +7,7 @@ window.lstore = window.lstore || {
   arrPois: null,
   terminal: null,
   isCouponClicked: null,
+  couponList: null,
   nuomiSrc: null
 }
 

@@ -260,34 +260,34 @@
 
 <script>
 export default {
-	data() {
-		return {
-			
-		}
-	},
+  data() {
+    return {
+      
+    }
+  },
 
-	computed: {
-		
-	},
+  computed: {
+    
+  },
 
-	methods: {
-		noop() {
+  methods: {
+    noop() {
 
-		}
-	},
-	ready() {
-		
-	},
+    }
+  },
+  ready() {
+    
+  },
 
   watch: {
-	// 	'store.arrivePoint'(val) {
-	// 		if(!val) {
+  //  'store.arrivePoint'(val) {
+  //    if(!val) {
 
-	// 		}
-	// 	},
+  //    }
+  //  },
 
-	}
+  }
 }
 </script>
-	
+  
 
