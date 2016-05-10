@@ -1,11 +1,12 @@
 <template>
   <div id="app">
     <div id="map"></div>
-    <navi></navi>
+<!--     <navi></navi>
     <search></search>
     <geo></geo>
     <pop></pop>
-    <nuomi></nuomi>
+    <nuomi></nuomi> -->
+    <list></list>
   </div>
 </template>
 
@@ -21,19 +22,21 @@
 </style>
 
 <script>
-import Navi from './components/navi-button.vue'
-import Search from './components/search-box.vue'
-import Geo from './components/geolocation.vue'
-import Pop from './components/coupon-pop.vue'
-import Nuomi from './components/nuomi-frame.vue'
+// import Navi from './components/navi-button.vue'
+// import Search from './components/search-box.vue'
+// import Geo from './components/geolocation.vue'
+// import Pop from './components/coupon-pop.vue'
+import List from './components/coupon-list.vue'
+// import Nuomi from './components/nuomi-frame.vue'
 
 export default {
   components: {
-    Navi,
-    Search,
-    Geo,
-    Pop,
-    Nuomi
+    // Navi,
+    // Search,
+    // Geo,
+    // Pop,
+    List,
+    // Nuomi
   },
   ready() {
     // 百度地图API功能
