@@ -10,13 +10,13 @@
       <div class="RedBox">
         <div class="topcontent">
           <div class="avatar">
-            <img src="../assets/dayali.jpg" alt="" width="40" height="40" class="zoomIn">
+            <img :src="deal.img" alt="" width="40" height="40" class="zoomIn">
             <!-- <span class="bounceInDown" style="margin-bottom: 100px"><b>大鸭梨</b></span> -->
-            <div class="h1">{{position_name}}</div>
-            <div class="p0">({{position_last_name}})</div>
-            <div class="p1">距离{{distance}}米</div>
-            <span class="s1">￥{{money}}</span>
-            <span class="s2">{{di_yong}}</span>
+            <div class="h1">{{deal.title}}</div>
+            <div class="p0">{{deal.min_title}}</div>
+            <div class="p1">距离{{deal.distance}}米</div>
+            <span class="s1">￥{{deal.promotion_price}}</span>
+            <span class="s2">抵{{deal.market_price}}</span>
           </div>
           <div class="description1 flipInX" @click.prevent="useRedBag">使用红包</div>
         </div>
@@ -31,7 +31,7 @@
       </div>
     </div>
     <!-- 音频播放：格式MP3 导航结束页面一加载就自动播放 -->
-    <embed id="terminalAudio" autoplay src="./static/song.mp3" style="visibility:hidden"></embed>
+    <audio id="terminalAudio" src="./static/song.mp3" style="visibility:hidden"></audio>
   </div>
 </template>
 <style scoped>
@@ -60,7 +60,7 @@
 #headerSecondTitle {
   text-align: center;
   color: #fff;
-  margin: 20px;
+  margin: 3%;
 }
 
 #headerTitle {
@@ -193,18 +193,26 @@
   color: #080808;
   -webkit-animation-duration: 3s;
   animation-duration: 5s;
+  overflow: hidden;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 
 .p0 {
   clear: both;
   position: absolute;
   top: 140px;
-  margin-left: 52px;
+  margin-left: 60px;
   color: rgba(0, 0, 0, 0.67);
   font-size: 0.8rem;
   width: 80px;
   -webkit-animation-duration: 3s;
   animation-duration: 3s;
+  overflow: hidden;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 
 .p1 {
@@ -499,11 +507,14 @@
 export default {
   data() {
       return {
-        position_name: '大鸭梨',
-        position_last_name: '西三旗店',
-        distance: '215',
-        money: '75',
-        di_yong: '抵100',
+        deal: {
+          img: '',
+          title: '大鸭梨',
+          min_title: '西三旗店',
+          distance: '215',
+          promotion_price: '75',
+          market_price: '100'
+        },
         store: lstore
       }
     },
@@ -519,6 +530,46 @@ export default {
       useRedBag() {
         this.store.nuomiSrc = 'http://m.nuomi.com/bj/deal/12tzhuju'
       },
+      fetchDealList(terminal) {
+        console.log(JSON.parse(JSON.stringify(terminal)))
+        let headers = {
+          apikey: '5150d387b5b5ed6abda274d297496508'
+        }
+        let params = {
+          'city_id': 100010000,
+          'cat_ids': 326,
+          'keyword': terminal.title,
+          'location': `${terminal.point.lng},${terminal.point.lat}`,
+          'radius': 3000
+        }
+        this.$http.get({
+          url: 'http://apis.baidu.com/baidunuomi/openapi/searchdeals',
+          headers: headers,
+          params: params
+        }).then(res => {
+          let data = res.data
+          console.log(data)
+          if(data.errno == 0) {
+            let deal = data.data.deals[0]
+            if(terminal.tags[0] = '餐饮') {
+              this.deal.img = deal.tiny_image
+              this.deal.title = deal.title
+              this.deal.min_title = deal.min_title
+              this.deal.distance = deal.distance
+              this.deal.promotion_price = deal.promotion_price / 100
+              this.deal.market_price = deal.market_price / 100
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      playAudio() {
+        setTimeout(() => {
+          let audio = document.getElementById('terminalAudio')
+          audio.play()
+        }, 200)
+      },
       exit() {
         this.store.terminal = null
         this.store.isCouponClicked = null
@@ -530,8 +581,9 @@ export default {
     },
     watch: {
       'store.terminal' (val) {
-        if (!val) {
-
+        if (val) {
+          this.fetchDealList(val)
+          this.playAudio()
         }
       },
       'store.isCouponClicked' (val) {

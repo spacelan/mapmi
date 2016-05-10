@@ -62,7 +62,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url',
         query: {
-          limit: 10000,
+          limit: 100000,
           name: utils.assetsPath('[name].[hash:7].[ext]')
         }
       }
