@@ -4,12 +4,13 @@
       <div id="headerReturn" @click.prevent="exit"></div>
       <div id="headerTitle">{{header_title}}</div>
       <div id="headerSecondTitle">{{header_second_title}}</div>
+      <div id="headerRight"></div>
     </div>
     <div id="terminalCoupon" v-if="canShowCoupon">
       <div class="RedBox">
         <div class="topcontent">
           <div class="avatar">
-            <img src="../assets/user8.jpg" alt="" width="40" height="40" class="zoomIn">
+            <img src="../assets/dayali.jpg" alt="" width="40" height="40" class="zoomIn">
             <!-- <span class="bounceInDown" style="margin-bottom: 100px"><b>大鸭梨</b></span> -->
             <div class="h1">{{position_name}}</div>
             <div class="p0">({{position_last_name}})</div>
@@ -68,6 +69,19 @@
 
 #headerSecondTitle {
   font-size: 1.2em;
+}
+#headerRight {
+  position: absolute;
+  float: right;
+  top: 20px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  background-image: url(../assets/share.jpg);
+  background-size: 40px 40px;
+  background-repeat: no-repeat;
+  background-position: center center;
+
 }
 
 #terminalFooter {
