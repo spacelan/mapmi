@@ -67,6 +67,7 @@
 #headerSecondTitle {
   font-size: 1.2em;
 }
+
 #headerRight {
   position: absolute;
   float: right;
@@ -78,7 +79,6 @@
   background-size: 25px 25px;
   background-repeat: no-repeat;
   background-position: center center;
-
 }
 
 #terminalFooter {
@@ -225,7 +225,8 @@
   right: 110px;
   font-size: 1rem;
   font-weight: 600;
-  text-align: center;;
+  text-align: center;
+  ;
   background: #ffae00;
   color: #D03634;
   line-height: 34px;
@@ -310,8 +311,8 @@ export default {
     },
     methods: {
       useRedBag() {
-        for(let tag of this.store.terminal.tags) {
-          if(tag == '餐饮') {
+        for (let tag of this.store.terminal.tags || []) {
+          if (tag == '餐饮') {
             this.store.nuomiSrc = this.deals[0].deal_murl
             return
           }
@@ -324,11 +325,12 @@ export default {
           apikey: '5150d387b5b5ed6abda274d297496508'
         }
         let keyword = null
-        terminal.tags.forEach(tag => {
+        for (let tag of terminal.tags || []) {
           if (tag == '餐饮') {
             keyword = terminal.title
+            return
           }
-        })
+        }
         let params = {
           'city_id': 100010000,
           'cat_ids': 326,

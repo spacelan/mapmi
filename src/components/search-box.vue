@@ -12,7 +12,7 @@
   padding: 10px 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  font-size: 0.9em;
+  font-size: 1rem;
   width: 90%;
   height: 46px;
   color: #333;
@@ -53,7 +53,7 @@ class SearchControl extends BMap.Control {
   initialize(map) {
     let search = document.getElementById('search-box')
     map.addEventListener('touchstart', () => {
-      search.blur()
+      document.getElementById('search-input').blur()
     })
       // 添加DOM元素到地图中
     map.getContainer().appendChild(search)

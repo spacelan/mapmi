@@ -1,11 +1,6 @@
 <template>
   <div id="app">
-    <div id="mapContainer">
-      <div id="map"></div>
-      <navi></navi>
-      <search></search>
-      <geo></geo>
-    <div>
+    <map></map>
     <pop v-if="store.terminal"></pop>
     <list v-if="store.couponList"></list>
     <nuomi v-if="store.nuomiSrc"></nuomi>
@@ -13,7 +8,7 @@
 </template>
 
 <style>
-#app, #map{
+#app {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -24,18 +19,14 @@
 </style>
 
 <script>
-import Navi from './components/navi-button.vue'
-import Search from './components/search-box.vue'
-import Geo from './components/geolocation.vue'
+import Map from './components/map.vue'
 import Pop from './components/coupon-pop.vue'
 import List from './components/coupon-list.vue'
 import Nuomi from './components/nuomi-frame.vue'
 
 export default {
   components: {
-    Navi,
-    Search,
-    Geo,
+    Map,
     Pop,
     List,
     Nuomi
@@ -43,30 +34,6 @@ export default {
   data() {
     return {
       store: lstore
-    }
-  },
-  ready() {
-    // 百度地图API功能
-    window.map = new BMap.Map('map') // 创建Map实例
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11) // 初始化地图,设置中心点坐标和地图级别
-    map.setCurrentCity('北京') // 设置地图显示的城市 此项是必须设置的
-
-    setInterval(() => {
-      let arr = document.getElementsByClassName('anchorBL')
-      for (let item of arr) {
-        item.style['z-index'] = 9
-      }
-    }, 2000)
-
-    this.initControl()
-  },
-  methods: {
-    initControl() {
-      map.addControl(new BMap.NavigationControl({
-        anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
-        offset: new BMap.Size(20, 200),
-        type: BMAP_NAVIGATION_CONTROL_ZOOM
-      }))
     }
   }
 }
