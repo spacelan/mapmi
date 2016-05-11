@@ -144,9 +144,6 @@ export default {
               })
               this.isNavi = false
               this.store.terminal = this.store.target
-              setTimeout(() => {
-                this.toRedBag()
-              }, 500)
             }
           });
         }
@@ -200,7 +197,7 @@ export default {
         this.end.setIcon(icon)
         this.end.setTop(true)
         this.end.addEventListener('click', e => {
-          this.store.isCouponClicked = true
+          this.store.redBagState = 'clicked'
         })
       }
     },
@@ -214,7 +211,7 @@ export default {
         this.store.arrPois = null
       }
     },
-    'store.arrPois'(val) {
+    'store.arrPois' (val) {
       this.removeOverlay()
       if (val) {
         this.addOverlay(val)
@@ -222,8 +219,13 @@ export default {
         this.stop()
       }
     },
-    'store.target'(val) {
+    'store.target' (val) {
       this.clear()
+    },
+    'store.redBagState' (val) {
+      if (val == 'show') {
+        this.toRedBag()
+      }
     }
   }
 }

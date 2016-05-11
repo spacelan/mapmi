@@ -8,18 +8,15 @@
     </div>
     <div id="terminalCoupon" v-if="canShowCoupon">
       <div class="RedBox">
-        <div class="topcontent">
-          <div class="avatar">
-            <img :src="deal.img" alt="" width="40" height="40" class="zoomIn">
-            <!-- <span class="bounceInDown" style="margin-bottom: 100px"><b>大鸭梨</b></span> -->
-            <div class="h1">{{deal.title}}</div>
-            <div class="p0">{{deal.min_title}}</div>
-            <div class="p1">距离{{deal.distance}}米</div>
-            <span class="s1">￥{{deal.promotion_price}}</span>
-            <span class="s2">抵{{deal.market_price}}</span>
-          </div>
-          <div class="description1 flipInX" @click.prevent="useRedBag">使用红包</div>
+        <div class="avatar">
+          <img :src="deals[0].tiny_image" class="headerImg zoomIn">
+          <div class="h1">{{deals[0].title}}</div>
+          <div class="p0">{{deals[0].min_title}}</div>
+          <div class="p1">距离{{deals[0].distance}}米</div>
+          <span class="s1">￥{{deals[0].promotion_price / 100}}</span>
+          <span class="s2">抵{{deals[0].market_price / 100}}</span>
         </div>
+        <div class="useButton flipInX" @click.prevent="useRedBag">使用红包</div>
       </div>
     </div>
     <div id="terminalFooter">
@@ -116,355 +113,138 @@
 }
 
 #terminalCoupon {
-  text-align: center;
   position: absolute;
-  top: 140px;
+  top: 16%;
+  bottom: 16%;
   left: 0;
-  bottom: 140px;
   right: 0;
-  -webkit-transform: scale(1);
-  transform: scale(1);
-  opacity: 0;
-  -webkit-animation: fromBack 1.5s linear forwards;
-  animation: fromBack 1.5s linear forwards;
-}
-
-@-webkit-keyframes fromBack {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes fromBack {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  overflow: hidden;
 }
 
 .RedBox {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-image: url(../assets/coupon-res.png);
+  top: -100%;
+  bottom: -100%;
+  left: -100%;
+  right: -100%;
+  width: 375px;
+  height: 385px;
+  margin: auto auto;
+  background: url(../assets/coupon-res.png) center center;
+  animation: fromBack 0.5s linear forwards;
 }
 
-.topcontent {
-  -webkit-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
+@keyframes fromBack {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .avatar {
-  position: relative;
-  padding-top: 90px;
-  left: 85px;
-  height: 180px;
-  width: 220px;
+  position: absolute;
+  top: 110px;
+  left: 90px;
+  height: 80px;
+  width: 200px;
 }
 
-.topcontent img {
+.headerImg {
+  position: absolute;
+  top: 15px;
+  left: 12px;
+  width: 40px;
+  height: 40px;
   border: 1px solid #BD503A;
   border-radius: 50%;
-  overflow: hidden;
-  margin-top: 17%;
-  margin-left: 18px;
-  float: left;
-  -webkit-animation-duration: 10s;
   animation-duration: 6s;
 }
 
 .h1 {
-  float: left;
-  margin-top: 28px;
-  margin-left: 5px;
+  position: absolute;
+  top: 5px;
+  left: 55px;
+  width: 75px;
   font-size: 1.2rem;
   color: #080808;
-  -webkit-animation-duration: 3s;
-  animation-duration: 5s;
   overflow: hidden;
   white-space: nowrap;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
+  text-overflow: clip;
 }
 
 .p0 {
-  clear: both;
   position: absolute;
-  top: 140px;
-  margin-left: 60px;
+  top: 31px;
+  left: 55px;
+  width: 75px;
   color: rgba(0, 0, 0, 0.67);
   font-size: 0.8rem;
-  width: 80px;
-  -webkit-animation-duration: 3s;
-  animation-duration: 3s;
   overflow: hidden;
   white-space: nowrap;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
+  text-overflow: clip;
 }
 
 .p1 {
-  clear: both;
   position: absolute;
-  top: 158px;
-  margin-left: 50px;
+  top: 50px;
+  left: 55px;
+  width: 75px;
   color: #8E8A8A;
   font-size: xx-small;
-  width: 80px;
-  -webkit-animation-duration: 3s;
-  animation-duration: 3s;
 }
 
 .s1 {
-  float: right;
   position: absolute;
-  top: 118px;
-  right: 12px;
+  top: 5px;
+  left: 130px;
+  width: 65px;
   color: #0C0C0C;
-  font-size: 2rem;
-  width: 80px;
-  -webkit-animation-duration: 3s;
-  animation-duration: 3s;
+  font-size: 1.6rem;
+  text-align: center;
 }
 
 .s2 {
-  clear: both;
   position: absolute;
-  top: 155px;
-  right: 10px;
-  margin-left: 5px;
+  top: 40px;
+  left: 130px;
+  width: 65px;
   color: #060606;
   font-size: 1rem;
-  width: 80px;
-  -webkit-animation-duration: 3s;
-  animation-duration: 3s;
+  text-align: center;
 }
 
-.text {
-  color: #ff605e;
-  ;
-  font-weight: bold;
-  font-size: 1.5rem;
-  -webkit-animation-duration: 4s;
-  animation-duration: 4s;
-}
-
-.text b {
-  font-size: 2rem;
-}
-
-.description1 {
-  margin: 0 95px;
+.useButton {
+  position: absolute;
+  top: 270px;
+  left: 110px;
+  right: 110px;
   font-size: 1rem;
   font-weight: 600;
-  height: 34px;
+  text-align: center;;
   background: #ffae00;
   color: #D03634;
-  box-shadow: 10px 10px 5px 1px #ccc；;
-  box-shadow: 0px 1px 1px rgba(12, 12, 12, 0.64);
   line-height: 34px;
   border-radius: 5px;
-  -webkit-animation-duration: 4s;
-  animation-duration: 5s;
-}
-
-.rotate {
-  -webkit-animation: anim .6s infinite alternate;
-  -ms-animation: anim .6s infinite alternate;
-  animation: anim .6s infinite alternate;
-}
-
-@-webkit-keyframes anim {
-  from {
-    -webkit-transform: rotateY(180deg);
-  }
-  to {
-    -webkit-transform: rotateY(360deg);
-  }
-}
-
-@-ms-keyframes anim {
-  from {
-    -ms-transform: rotateY(180deg);
-  }
-  to {
-    -ms-transform: rotateY(360deg);
-  }
-}
-
-@keyframes anim {
-  from {
-    transform: rotateY(180deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
-}
-
-@-webkit-keyframes bounceInDown {
-  from,
-  60%,
-  75%,
-  90%,
-  to {
-    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-  }
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -3000px, 0);
-    transform: translate3d(0, -3000px, 0);
-  }
-  60% {
-    opacity: 1;
-    -webkit-transform: translate3d(0, 25px, 0);
-    transform: translate3d(0, 25px, 0);
-  }
-  75% {
-    -webkit-transform: translate3d(0, -10px, 0);
-    transform: translate3d(0, -10px, 0);
-  }
-  90% {
-    -webkit-transform: translate3d(0, 5px, 0);
-    transform: translate3d(0, 5px, 0);
-  }
-  to {
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-@keyframes bounceInDown {
-  from,
-  60%,
-  75%,
-  90%,
-  to {
-    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-  }
-  0% {
-    opacity: 0;
-    -webkit-transform: translate3d(0, -3000px, 0);
-    transform: translate3d(0, -3000px, 0);
-  }
-  60% {
-    opacity: 1;
-    -webkit-transform: translate3d(0, 25px, 0);
-    transform: translate3d(0, 25px, 0);
-  }
-  75% {
-    -webkit-transform: translate3d(0, -10px, 0);
-    transform: translate3d(0, -10px, 0);
-  }
-  90% {
-    -webkit-transform: translate3d(0, 5px, 0);
-    transform: translate3d(0, 5px, 0);
-  }
-  to {
-    -webkit-transform: none;
-    transform: none;
-  }
-}
-
-.bounceInDown {
-  -webkit-animation-name: bounceInDown;
-  animation-name: bounceInDown;
-}
-
-@-webkit-keyframes flash {
-  from,
-  0%,
-  to {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes flash {
-  from,
-  0%,
-  to {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.flash {
-  -webkit-animation-name: flash;
-  animation-name: flash;
-}
-
-@-webkit-keyframes zoomIn {
-  from {
-    opacity: 0;
-    -webkit-transform: scale3d(.2, .2, .2);
-    transform: scale3d(.2, .2, .2);
-  }
-  50% {
-    opacity: 1;
-  }
 }
 
 @keyframes zoomIn {
-  from {
+  0% {
     opacity: 0;
-    -webkit-transform: scale3d(.2, .2, .2);
-    transform: scale3d(.2, .2, .2);
+    transform: scale(0.5);
   }
-  50% {
+  100% {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
 .zoomIn {
-  -webkit-animation-name: zoomIn;
   animation-name: zoomIn;
-}
-
-@-webkit-keyframes flipInX {
-  from {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-  40% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-    -webkit-animation-timing-function: ease-in;
-    animation-timing-function: ease-in;
-  }
-  60% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    opacity: 1;
-  }
-  80% {
-    -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-  }
-  to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
-  }
+  animation-duration: 1s;
 }
 
 @keyframes flipInX {
@@ -497,24 +277,25 @@
 }
 
 .flipInX {
-  -webkit-backface-visibility: visible !important;
-  backface-visibility: visible !important;
-  -webkit-animation-name: flipInX;
   animation-name: flipInX;
+  animation-duration: 4s;
 }
 </style>
 <script>
+import assert from 'assert'
+
 export default {
   data() {
       return {
-        deal: {
-          img: '',
-          title: '大鸭梨',
+        deals: [{
+          tiny_image: './static/dayali.jpg',
+          title: '大鸭梨lalalalala',
           min_title: '西三旗店',
           distance: '215',
           promotion_price: '75',
-          market_price: '100'
-        },
+          market_price: '100',
+          deal_murl: 'http://m.nuomi.com/bj/deal/12tzhuju'
+        }],
         store: lstore
       }
     },
@@ -523,22 +304,34 @@ export default {
         return !!this.store.terminal
       },
       canShowCoupon() {
-        return !!(this.store.terminal && this.store.isCouponClicked)
+        return !!(this.store.terminal && this.store.redBagState == 'clicked')
       }
     },
     methods: {
       useRedBag() {
-        this.store.nuomiSrc = 'http://m.nuomi.com/bj/deal/12tzhuju'
+        for(let tag of this.store.terminal.tags) {
+          if(tag == '餐饮') {
+            this.store.nuomiSrc = this.deals[0].deal_murl
+            return
+          }
+        }
+        this.store.couponList = this.deals
       },
       fetchDealList(terminal) {
         console.log(JSON.parse(JSON.stringify(terminal)))
         let headers = {
           apikey: '5150d387b5b5ed6abda274d297496508'
         }
+        let keyword = null
+        terminal.tags.forEach(tag => {
+          if (tag == '餐饮') {
+            keyword = terminal.title
+          }
+        })
         let params = {
           'city_id': 100010000,
           'cat_ids': 326,
-          'keyword': terminal.title,
+          'keyword': keyword,
           'location': `${terminal.point.lng},${terminal.point.lat}`,
           'radius': 3000
         }
@@ -549,17 +342,9 @@ export default {
         }).then(res => {
           let data = res.data
           console.log(data)
-          if(data.errno == 0) {
-            let deal = data.data.deals[0]
-            if(terminal.tags[0] = '餐饮') {
-              this.deal.img = deal.tiny_image
-              this.deal.title = deal.title
-              this.deal.min_title = deal.min_title
-              this.deal.distance = deal.distance
-              this.deal.promotion_price = deal.promotion_price / 100
-              this.deal.market_price = deal.market_price / 100
-            }
-          }
+          assert.equal(data.errno, 0)
+          this.deals = data.data.deals
+          this.store.redBagState = 'show'
         }).catch(err => {
           console.log(err)
         })
@@ -572,7 +357,7 @@ export default {
       },
       exit() {
         this.store.terminal = null
-        this.store.isCouponClicked = null
+        this.store.redBagState = null
         this.store.target = null
       }
     },
@@ -583,12 +368,11 @@ export default {
       'store.terminal' (val) {
         if (val) {
           this.fetchDealList(val)
-          this.playAudio()
         }
       },
-      'store.isCouponClicked' (val) {
-        if (val) {
-
+      'store.redBagState' (val) {
+        if (val == 'show') {
+          this.playAudio()
         }
       }
     }
