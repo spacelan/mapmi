@@ -98,8 +98,9 @@ export default {
         let searchValue = value.province + value.city + value.district + value.street + value.streetNumber + value.business
         this.input = searchValue
         this.removeMarker()
+        this.local.setLocation(this.store.location || map)
         this.local.search(searchValue)
-        // document.getElementById('search-input').blur()
+        document.getElementById('search-input').blur()
       });
 
       map.addControl(new SearchControl())
@@ -121,6 +122,7 @@ export default {
       if (this.input.length > 0) {
         document.getElementById('search-input').blur()
         this.removeMarker()
+        this.local.setLocation(this.store.location || map)
         this.local.search(this.input)
       }
     },
@@ -145,6 +147,7 @@ export default {
   watch: {
     input(val) {
       if (val.length > 0) {
+        this.ac.setLocation(this.store.location || map)
         this.ac.search(val)
       } else {
         this.clear()
