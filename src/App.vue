@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-    <div id="map"></div>
-    <navi></navi>
-    <search></search>
-    <geo></geo>
-    <pop></pop>
-    <nuomi></nuomi>
-    <list></list>
+    <div id="mapContainer">
+      <div id="map"></div>
+      <navi></navi>
+      <search></search>
+      <geo></geo>
+    <div>
+    <pop v-if="store.terminal"></pop>
+    <list v-if="store.couponList"></list>
+    <nuomi v-if="store.nuomiSrc"></nuomi>
   </div>
 </template>
 
@@ -37,6 +39,11 @@ export default {
     Pop,
     List,
     Nuomi
+  },
+  data() {
+    return {
+      store: lstore
+    }
   },
   ready() {
     // 百度地图API功能

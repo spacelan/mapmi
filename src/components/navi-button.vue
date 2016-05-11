@@ -58,13 +58,13 @@
 
 <template>
   <div id="navi-box" v-show="canShow">
-	  <div id="route-button" @click.prevent="route" v-show="canRoute"></div>
+	  <div id="route-button" v-touch:tap="route" v-show="canRoute"></div>
     <div id="navi" v-show="canNavi">
-      <div id="navi-button1" @click.prevent="toggle">
+      <div id="navi-button1" v-touch:tap="toggle">
         <img id="navi-icon" src="../assets/route_nav_icon.png">
         <span>{{!isNavi ? '开始导航' : '暂停导航'}}</span>
       </div>
-      <div id="navi-button2" @click.prevent="clear">
+      <div id="navi-button2" v-touch:tap="clear">
         <span>结束导航</span>
       </div>
     </div>

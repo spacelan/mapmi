@@ -1,9 +1,9 @@
 <template>
-  <div id="nuomiDiv" v-if="canShow">
+  <div id="nuomiView">
     <div id="frameContainer">
       <iframe id="nuomiFrame" :src="src"></iframe>
     </div>
-    <div id="returnButton" @click.prevent="returnToMap">返回地图</div>
+    <div id="returnButton" v-touch:tap="returnToMap">返回地图</div>
   </div>
 </template>
 
@@ -60,8 +60,7 @@ export default {
       this.store.nuomiSrc = null
     }
   },
-  ready() {
-    /*
+  attached() {
     let discount = 10
     let privilegeHtml = `<div class="privilege-list"><div class="privilege-item" mon="area=privilegeList"><a href="javascript:;" class="fake-icon" mon="position=1"><em class="text">地图红包减${discount}元</em></a></div></div>`
     let fakeIcon = `<a href="javascript:;" class="fake-icon" mon="position=0"><em class="text">地图红包减${discount}元</em></a>`
@@ -85,7 +84,6 @@ export default {
         }
       }, 1000)
     }
-    */
   }
 }
 </script>

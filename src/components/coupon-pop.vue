@@ -1,7 +1,7 @@
 <template>
-  <div v-if="canShow">
+  <div id="couponPopView">
     <div id="terminalHeader">
-      <div id="headerReturn" @click.prevent="exit"></div>
+      <div id="headerReturn" v-touch:tap="exit"></div>
       <div id="headerTitle">驾御者</div>
       <div id="headerSecondTitle">交通通畅，多了些时间，多了些生活</div>
       <div id="headerRight"></div>
@@ -16,7 +16,7 @@
           <span class="s1">￥{{deals[0].promotion_price / 100}}</span>
           <span class="s2">抵{{deals[0].market_price / 100}}</span>
         </div>
-        <div class="useButton flipInX" @click.prevent="useRedBag">使用红包</div>
+        <div class="useButton flipInX" v-touch:tap="useRedBag">使用红包</div>
       </div>
     </div>
     <div id="terminalFooter">
@@ -37,7 +37,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 16%;
+  height: 100px;
   background-color: #3385ff
 }
 
@@ -131,17 +131,18 @@
   height: 385px;
   margin: auto auto;
   background: url(../assets/coupon-res.png) center center;
-  animation: fromBack 0.5s linear forwards;
+  animation: fromBack .5s;
 }
 
 @keyframes fromBack {
   0% {
-    transform: scale(0.5);
-    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
   }
   100% {
     transform: scale(1);
-    opacity: 1;
   }
 }
 
@@ -361,15 +362,10 @@ export default {
         this.store.target = null
       }
     },
-    ready() {
-
+    attached() {
+      this.fetchDealList(this.store.terminal)
     },
     watch: {
-      'store.terminal' (val) {
-        if (val) {
-          this.fetchDealList(val)
-        }
-      },
       'store.redBagState' (val) {
         if (val == 'show') {
           this.playAudio()

@@ -36,7 +36,7 @@
 <template>
 <div id="search-box" v-show="canShow">
   <input id="search-input" v-model="input" @click.prevent="show" v-on:keyup.enter="submit" type="text" placeholder="搜地点，找路线">
-  <div id="search-clear" @click.prevent="clear" v-show="input.length > 0"></div>
+  <div id="search-clear" v-touch:tap="clear" v-show="input.length > 0"></div>
 </div>
 </template>
 
@@ -100,7 +100,6 @@ export default {
         this.removeMarker()
         this.local.setLocation(this.store.location || map)
         this.local.search(searchValue)
-        document.getElementById('search-input').blur()
       });
 
       map.addControl(new SearchControl())
@@ -124,6 +123,7 @@ export default {
         this.removeMarker()
         this.local.setLocation(this.store.location || map)
         this.local.search(this.input)
+        document.getElementById('search-input').blur()
       }
     },
     removeMarker() {
