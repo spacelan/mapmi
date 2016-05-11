@@ -10,14 +10,14 @@
                 <img src="../assets/header_search.png" style="width:25px;height: 20px">
             </div>
             <div class="header_center header_title">
-                商圈团购红包
+                {{header_title}}
             </div>
         </div>
 
         <!-- tabs -->
         <ul class="tab">
-              <li id="liRest" class="cur_right" @click.prevent="changeTabForRest">美食</li>
-              <li id="liMovie" class="cur_left"  @click.prevent="changeTabForMovie">电影</li>
+              <li id="liRest" class="cur_right" @click.prevent="changeTabForRest">{{tab_r}}</li>
+              <li id="liMovie" class="cur_left"  @click.prevent="changeTabForMovie">{{tab_m}}</li>
 
         </ul>
         <script type="text/javascript">
@@ -27,64 +27,48 @@
         <!-- index --> 
 
         <ul class="index">
-               <li class="cur-right">综合排序 <img src="../assets/index-down.png" class="index-pic"></li>
-               <li class="">筛选菜系 <img src="../assets/index-down.png" class="index-pic"</li>
+               <li class="cur-right">{{index_z}} <img src="../assets/index-down.png" class="index-pic"></li>
+               <li class="">{{index_s}}<img src="../assets/index-down.png" class="index-pic"</li>
         </ul>
         
         <!-- couponList -->
         <div class="main">
            
-                <div class="couponList" id="tab_r">
-                    <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
+                <div class="couponList" id="tab_rest">
+                <ul>
+                  <li v-for="restArray in restArrays">
+                    <a href={{restArray.dear_murl}} target="_blank" ><div class="coupon">  
                         <div class="coupon_priceicon">￥</div>        
-                        <div class="coupon_priceicon coupon_price">75</div>
-                        <div class="coupon_allprice">抵100</div>                            
-                        <div class="coupon_distance">距离 215 米</div>
-                        <div class="coupon_title">大鸭梨</div>
-                        <div class="coupon_title_tag">（西三旗店）</div>
-                        <div class="coupon_info">川菜|4.5分|人均86元</div> 
+                        <div class="coupon_priceicon coupon_price">{{restArray.current_price/100}}</div>
+                        <div class="coupon_allprice">抵{{restArray.market_price/100}}</div>                            
+                        <div class="coupon_distance">距离 {{restArray.distance}}米</div>
+                        <div class="coupon_title">{{restArray.title}}</div>
+                        <div class="coupon_title_tag">{{restArray.title_tag}}</div>
+                        <div class="coupon_info">{{restArray.tag}} | {{restArray.score}}分 | 人均{{restArray.current_price/100+8}}元</div> 
                     </div></a>
-
-                    <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
-                        <div class="coupon_priceicon">￥</div>        
-                        <div class="coupon_priceicon coupon_price">75</div>
-                        <div class="coupon_allprice">抵100</div>                            
-                        <div class="coupon_distance">距离 215 米</div>
-                        <div class="coupon_title">大鸭梨</div>
-                        <div class="coupon_title_tag">（西三旗店）</div>
-                        <div class="coupon_info">川菜|4.5分|人均86元</div> 
-                    </div></a>
-
-
-                    <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
-                        <div class="coupon_priceicon">￥</div>        
-                        <div class="coupon_priceicon coupon_price">75</div>
-                        <div class="coupon_allprice">抵100</div>                            
-                        <div class="coupon_distance">距离 215 米</div>
-                        <div class="coupon_title">大鸭梨</div>
-                        <div class="coupon_title_tag">（西三旗店）</div>
-                        <div class="coupon_info">川菜|4.5分|人均86元</div> 
-                    </div></a>
-
-                     <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
-                        <div class="coupon_priceicon">￥</div>        
-                        <div class="coupon_priceicon coupon_price">75</div>
-                        <div class="coupon_allprice">抵100</div>                            
-                        <div class="coupon_distance">距离 215 米</div>
-                        <div class="coupon_title">大鸭梨</div>
-                        <div class="coupon_title_tag">（西三旗店）</div>
-                        <div class="coupon_info">川菜|4.5分|人均86元</div> 
-                    </div></a>            
+                  </li>
+                </ul>
                 </div>
 
-                <div class="couponList hide" id="tab_m">
-              
-                  <!-- 电影coupon模块 -->
+                <div class="couponListhide" id="tab_movie">
+                <ul>
+                  <li v-for="restArray in restArrays">
+                    <a href={{restArray.dear_murl}} target="_blank" ><div class="coupon">  
+                        <div class="coupon_priceicon">￥</div>        
+                        <div class="coupon_priceicon coupon_price">{{restArray.current_price/100}}</div>
+                        <div class="coupon_allprice">抵{{restArray.market_price/100}}</div>                            
+                        <div class="coupon_distance">距离 {{restArray.distance}}米</div>
+                        <div class="coupon_title">{{restArray.title}}</div>
+                        <div class="coupon_title_tag">{{restArray.title_tag}}</div>
+                        <div class="coupon_info">{{restArray.tag}} | {{restArray.score}}分 | 人均{{restArray.current_price/100+8}}元</div> 
+                    </div></a>
+                  </li>
+                </ul>
                 </div>
+
         </div>
-
-        <!-- footer -->
-        <div class="footer">没有更多优惠卷了 ， <a href="" style="text-decoration: none;color:#45aaff">查看不可用</a> > </div>
+         <!-- footer -->
+        <div class="footer"><div class="toBottom">没有更多优惠卷了 ， <a href="" style="text-decoration: none;color:#45aaff">查看不可用</a> > </div></div>      
 </div>
   
 </template>
@@ -99,10 +83,10 @@
         position: absolute;
         width:100%;
         height: 100%;
+        background-color:#ececec;
         margin:0 auto;/*主面板DIV居中*/
         
     }
-    .hide{visibility : hidden}
     .header {
         position: relative;
         width:100%;
@@ -114,7 +98,6 @@
     .header_left {
         margin: 15px;
         width:10%;
-       
         float:left;
         
     }
@@ -134,7 +117,6 @@
     .header_right {
         margin: 15px;
         width:10%;
-        
         float:right;
     }
 
@@ -203,10 +185,19 @@
         background-color:#ececec;
     } 
     .couponList{
+         position: absolute;
          width:90%;
-         margin:auto;
-         margin-top: 20px;
+         top: 20%;
+         left: 5%;
          margin-bottom: 20px;
+    }
+    .couponListhide{
+         position: absolute;
+         width:90%;
+         top: 20%;
+         left: 5%;
+         margin-bottom: 20px;
+         visibility : hidden;
     }
     .coupon{
          width:100%;
@@ -275,26 +266,57 @@
 
     }
    .footer {
+        position: absolute;
         width:100%;
-        float:left;
-        clear:both; 
-        text-align: center;
-        height: 100%;
-        background-color:#ececec;
+        
+        text-align: center;      
         color:#8C8A8A;
        
     }
+   .toBottom{
+
+   }
 
 </style>
 
 
 <script>
+
 export default {
-  data() {
-    return {
-      
-    }
-  },
+	data() {
+		return {
+			header_title:'商圈团购红包',
+      tab_r:'美食',
+      tab_m:'电影',
+      index_z:'综合排序',
+      index_s:'分类筛选',
+
+      //接口示例
+      restArrays: [ 
+        { current_price: '2900' ,
+          market_price:'4600',
+          distance: '100',
+          title: '必胜客',
+          title_tag:'三里屯店',
+          score: '4.01',
+          tag:'检索标签',
+          dear_murl:'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
+
+        },
+        { current_price: '5000' ,
+          market_price:'4700',
+          distance: '80',
+          title: '海底捞',
+          title_tag:'三里屯店',
+          score: '3.5',
+          tag:'检索标签',
+          dear_murl:'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
+        }, 
+      ]
+
+      // store:store.couponList
+		}
+	},
 
   computed: {
     
@@ -303,8 +325,8 @@ export default {
 	methods: {
     changeTabForRest()
          {
-             document.getElementById("tab_r").style.visibility='visible';
-             document.getElementById("tab_m").style.visibility='hidden';
+             document.getElementById("tab_rest").style.visibility='visible';
+             document.getElementById("tab_movie").style.visibility='hidden';
              document.getElementById("liRest").style.background ='#FB7397';
              document.getElementById("liMovie").style.background ='#ccc';
              document.getElementById("liMovie").style.color ='rgba(14, 14, 14, 0.73)';   
@@ -313,8 +335,8 @@ export default {
          },
     changeTabForMovie()
          {
-             document.getElementById("tab_r").style.visibility ='hidden';
-             document.getElementById("tab_m").style.visibility ='visible';
+             document.getElementById("tab_rest").style.visibility ='hidden';
+             document.getElementById("tab_movie").style.visibility ='visible';
              document.getElementById("liMovie").style.background ='#FB7397';
              document.getElementById("liRest").style.background ='#ccc';  
              document.getElementById("liMovie").style.color ='#fff';
