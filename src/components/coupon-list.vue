@@ -16,35 +16,25 @@
 
         <!-- tabs -->
         <ul class="tab">
-              <li class="cur">美食</li>
-              <li class="">电影</li>
+              <li id="liRest" class="cur_right" @click.prevent="changeTabForRest">美食</li>
+              <li id="liMovie" class="cur_left"  @click.prevent="changeTabForMovie">电影</li>
+
         </ul>
-      
-
         <script type="text/javascript">
-          //选项卡滑动js特效
-          //
-          //  $(document).ready(function(){
-          //         $(".tab li").click(function(){
-          //         $(".tab li").eq($(this).index()).addClass("cur").siblings().removeClass('cur');
-          // $("div").hide().eq($(this).index()).show();
-          //        //另一种方法: $("div").eq($(".tab li").index(this)).addClass("on").siblings().removeClass('on'); 
-
-          //         });
-              });
+        
         </script>
 
         <!-- index --> 
 
         <ul class="index">
-               <li class="cur">综合排序 <img src="../assets/index-down.png" class="index-pic"></li>
+               <li class="cur-right">综合排序 <img src="../assets/index-down.png" class="index-pic"></li>
                <li class="">筛选菜系 <img src="../assets/index-down.png" class="index-pic"</li>
         </ul>
         
         <!-- couponList -->
         <div class="main">
            
-                <div class="couponList">
+                <div class="couponList" id="tab_r">
                     <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
                         <div class="coupon_priceicon">￥</div>        
                         <div class="coupon_priceicon coupon_price">75</div>
@@ -54,8 +44,42 @@
                         <div class="coupon_title_tag">（西三旗店）</div>
                         <div class="coupon_info">川菜|4.5分|人均86元</div> 
                     </div></a>
-                  
-                
+
+                    <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
+                        <div class="coupon_priceicon">￥</div>        
+                        <div class="coupon_priceicon coupon_price">75</div>
+                        <div class="coupon_allprice">抵100</div>                            
+                        <div class="coupon_distance">距离 215 米</div>
+                        <div class="coupon_title">大鸭梨</div>
+                        <div class="coupon_title_tag">（西三旗店）</div>
+                        <div class="coupon_info">川菜|4.5分|人均86元</div> 
+                    </div></a>
+
+
+                    <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
+                        <div class="coupon_priceicon">￥</div>        
+                        <div class="coupon_priceicon coupon_price">75</div>
+                        <div class="coupon_allprice">抵100</div>                            
+                        <div class="coupon_distance">距离 215 米</div>
+                        <div class="coupon_title">大鸭梨</div>
+                        <div class="coupon_title_tag">（西三旗店）</div>
+                        <div class="coupon_info">川菜|4.5分|人均86元</div> 
+                    </div></a>
+
+                     <a href="http://www.daijiale.cn" target="_blank" ><div class="coupon">  
+                        <div class="coupon_priceicon">￥</div>        
+                        <div class="coupon_priceicon coupon_price">75</div>
+                        <div class="coupon_allprice">抵100</div>                            
+                        <div class="coupon_distance">距离 215 米</div>
+                        <div class="coupon_title">大鸭梨</div>
+                        <div class="coupon_title_tag">（西三旗店）</div>
+                        <div class="coupon_info">川菜|4.5分|人均86元</div> 
+                    </div></a>            
+                </div>
+
+                <div class="couponList hide" id="tab_m">
+              
+                  <!-- 电影coupon模块 -->
                 </div>
         </div>
 
@@ -78,6 +102,7 @@
         margin:0 auto;/*主面板DIV居中*/
         
     }
+    .hide{visibility : hidden}
     .header {
         position: relative;
         width:100%;
@@ -126,20 +151,23 @@
       width:50%;
       height:35px;
       font-size: 0.9rem;
-      color:rgba(14, 14, 14, 0.73);
       text-align:center;
       line-height:35px;
       cursor:pointer; 
     }
     .on{display:block;}
 
-    .tab li.cur{
+    .tab li.cur_right{
       color:#fff;
       background:#FB7397;
       border-top-right-radius: 12px;
       border-bottom-right-radius: 12px;
     }
-
+    .tab li.cur_left{
+      color:rgba(14, 14, 14, 0.73);
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
     .index{
       margin:0;
       padding:0;
@@ -183,9 +211,11 @@
     .coupon{
          width:100%;
          margin:auto;
-         height:107px;
+         height:105px;
          background-image: url(../assets/coupon.png);
+         background-repeat: no-repeat;
          border-radius:8px;
+         margin-bottom: 20px;
          box-shadow: 1px 2px 1px #B5B1B1;
     }
     .coupon_priceicon{
@@ -270,14 +300,30 @@ export default {
     
   },
 
-  methods: {
-    noop() {
+	methods: {
+    changeTabForRest()
+         {
+             document.getElementById("tab_r").style.visibility='visible';
+             document.getElementById("tab_m").style.visibility='hidden';
+             document.getElementById("liRest").style.background ='#FB7397';
+             document.getElementById("liMovie").style.background ='#ccc';
+             document.getElementById("liMovie").style.color ='rgba(14, 14, 14, 0.73)';   
+             document.getElementById("liRest").style.color ='#fff';
 
-    }
-  },
-  ready() {
-    
-  },
+         },
+    changeTabForMovie()
+         {
+             document.getElementById("tab_r").style.visibility ='hidden';
+             document.getElementById("tab_m").style.visibility ='visible';
+             document.getElementById("liMovie").style.background ='#FB7397';
+             document.getElementById("liRest").style.background ='#ccc';  
+             document.getElementById("liMovie").style.color ='#fff';
+             document.getElementById("liRest").style.color ='rgba(14, 14, 14, 0.73)';         
+          },
+	},
+	ready() {
+		
+	},
 
   watch: {
   //  'store.arrivePoint'(val) {
