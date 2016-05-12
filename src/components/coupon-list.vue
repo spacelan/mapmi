@@ -1,5 +1,5 @@
 <template>
- <div class="container_coupon">
+  <div class="container_coupon">
         <!-- header -->
         <div class="header">
             <div class="header_left">
@@ -33,10 +33,10 @@
         
         <!-- couponList -->
         <div class="main">
-           
+                
                 <div class="couponList" id="tab_rest">
-                <ul>
-                  <li v-for="restArray in restArrays">
+                <ul v-for="restArray in restArrays">
+                  
                     <a href={{restArray.dear_murl}} target="_blank" ><div class="coupon">  
                         <div class="coupon_priceicon">￥</div>        
                         <div class="coupon_priceicon coupon_price">{{restArray.current_price/100}}</div>
@@ -45,32 +45,27 @@
                         <div class="coupon_title">{{restArray.title}}</div>
                         <div class="coupon_title_tag">{{restArray.title_tag}}</div>
                         <div class="coupon_info">{{restArray.tag}} | {{restArray.score}}分 | 人均{{restArray.current_price/100+8}}元</div> 
-                    </div></a>
-                  </li>
+                    </div></a>               
                 </ul>
                 </div>
 
                 <div class="couponListhide" id="tab_movie">
-                <ul>
-                  <li v-for="restArray in restArrays">
-                    <a href={{restArray.dear_murl}} target="_blank" ><div class="coupon">  
+                  <ul v-for="movieArray in movieArrays">
+                    <a href={{movieArray.dear_murl}} target="_blank" >
+                    <div class="coupon">  
                         <div class="coupon_priceicon">￥</div>        
-                        <div class="coupon_priceicon coupon_price">{{restArray.current_price/100}}</div>
-                        <div class="coupon_allprice">抵{{restArray.market_price/100}}</div>                            
-                        <div class="coupon_distance">距离 {{restArray.distance}}米</div>
-                        <div class="coupon_title">{{restArray.title}}</div>
-                        <div class="coupon_title_tag">{{restArray.title_tag}}</div>
-                        <div class="coupon_info">{{restArray.tag}} | {{restArray.score}}分 | 人均{{restArray.current_price/100+8}}元</div> 
-                    </div></a>
-                  </li>
-                </ul>
+                        <div class="coupon_priceicon coupon_price">{{movieArray.current_price/100}}</div>                            
+                        <div class="coupon_distance">距离 {{movieArray.distance}}米</div>
+                        <div class="coupon_title">{{movieArray.title}}</div>
+                        <div class="coupon_title_tag">{{movieArray.title_tag}}</div>
+                        <div class="coupon_info">{{movieArray.tag}} | {{movieArray.score}}分 | 人均{{movieArray.current_price/100+8}}元</div> 
+                    </div>
+                    </a>
+                  </ul>
+                  <div class="footer">没有更多优惠卷了 ， <a href="" style="text-decoration: none;color:#45aaff">查看不可用</a> > </div> 
                 </div>
-
         </div>
-         <!-- footer -->
-        <div class="footer"><div class="toBottom">没有更多优惠卷了 ， <a href="" style="text-decoration: none;color:#45aaff">查看不可用</a> > </div></div>      
-</div>
-  
+  </div>
 </template>
 
 
@@ -78,14 +73,16 @@
 
 
 <style type="text/css">
-
     .container_coupon {
         position: absolute;
         width:100%;
-        height: 100%;
+        min-height:100%;
         background-color:#ececec;
         margin:0 auto;/*主面板DIV居中*/
         
+    }
+    .hide{
+      visibility : hidden;
     }
     .header {
         position: relative;
@@ -187,14 +184,20 @@
     .couponList{
          position: absolute;
          width:90%;
-         top: 20%;
+         top: 25%;
          left: 5%;
-         margin-bottom: 20px;
+         
+         background-color: #ececec;
+    }
+    .couponListBackground{
+      width: 100%;
+      position: absolute;
+      background-color: #ececec;
     }
     .couponListhide{
          position: absolute;
          width:90%;
-         top: 20%;
+         top: 25%;
          left: 5%;
          margin-bottom: 20px;
          visibility : hidden;
@@ -230,7 +233,7 @@
         float: left;
         margin-left: 78px;
         margin-top: 44px;
-        font-size:0.2rem;
+        font-size:1.0rem;
         color:rgba(255, 247, 247, 0.92);
     }
     .coupon_distance{
@@ -238,12 +241,12 @@
         float: left;
         margin-left: 30px;
         margin-top: 85px;
-        font-size:0.2rem;
+        font-size:1.0rem;
         color:rgba(255, 247, 247, 0.92);
     }
     .coupon_title{
         position: absolute;
-        margin-left: 138px;
+        margin-left: 134px;
         margin-top: 10px;
         font-size:1.6rem;
         color:#000;
@@ -253,7 +256,7 @@
         position: absolute;
         margin-left: 135px;
         margin-top: 45px;
-        font-size:0.8rem;
+        font-size:1.0rem;
         color:#000;
 
     }
@@ -261,21 +264,18 @@
         position: absolute;
         margin-left: 138px;
         margin-top: 65px;
-        font-size:0.2rem;
+        font-size:0.8rem;
         color:#8C8989;
 
     }
    .footer {
-        position: absolute;
-        width:100%;
-        
+        position:relative;
+        width:100%; 
+        bottom:0px;     
         text-align: center;      
         color:#8C8A8A;
        
     }
-   .toBottom{
-
-   }
 
 </style>
 
@@ -312,7 +312,76 @@ export default {
           tag:'检索标签',
           dear_murl:'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
         }, 
+        { current_price: '5000' ,
+          market_price:'4700',
+          distance: '80',
+          title: '海底捞',
+          title_tag:'三里屯店',
+          score: '3.5',
+          tag:'检索标签',
+          dear_murl:'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
+        }, 
+        { current_price: '5000' ,
+          market_price:'4700',
+          distance: '80',
+          title: '海底捞',
+          title_tag:'三里屯店',
+          score: '3.5',
+          tag:'检索标签',
+          dear_murl:'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
+        }, 
+        { current_price: '5000' ,
+          market_price:'4700',
+          distance: '80',
+          title: '海底捞',
+          title_tag:'三里屯店',
+          score: '3.5',
+          tag:'检索标签',
+          dear_murl:'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
+        }, 
+        { current_price: '5000' ,
+          market_price:'4700',
+          distance: '80',
+          title: '海底捞',
+          title_tag:'三里屯店',
+          score: '3.5',
+          tag:'检索标签',
+          dear_murl:'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
+        }, 
+      ],
+
+      //接口示例
+      movieArrays: [ 
+        
+        { current_price: '11100' ,
+          market_price:'11100',
+          distance: '80',
+          title: '美国队长',
+          title_tag:'美嘉欢乐影城',
+          score: '9.0',
+          tag:'科幻 动作',
+          dear_murl:'https://mdianying.baidu.com/info/cinema/detail?cinemaId=135&sfrom=newnuomi&source=nuomi&subchannel=nuominashare',
+        }, 
+        { current_price: '12300' ,
+          market_price:'12300',
+          distance: '120',
+          title: '奇幻森林',
+          title_tag:'美嘉欢乐影城',
+          score: '9.1',
+          tag:'冒险 奇幻',
+          dear_murl:'https://mdianying.baidu.com/info/cinema/detail?cinemaId=135&sfrom=newnuomi&source=nuomi&subchannel=nuominashare',
+        }, 
+         { current_price: '7100' ,
+          market_price:'7100',
+          distance: '105',
+          title: '北京遇上西雅图2',
+          title_tag:'美嘉欢乐影城',
+          score: '8.6',
+          tag:'爱情 喜剧',
+          dear_murl:'https://mdianying.baidu.com/info/cinema/detail?cinemaId=135&sfrom=newnuomi&source=nuomi&subchannel=nuominashare',
+        }, 
       ]
+
 
       // store:store.couponList
 		}
