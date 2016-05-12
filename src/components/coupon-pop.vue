@@ -311,7 +311,7 @@ export default {
     },
     methods: {
       useRedBag() {
-        for (let tag of this.store.terminal.tags || []) {
+        for (let tag of (this.store.terminal.tags || [])) {
           if (tag == '餐饮') {
             this.store.nuomiSrc = this.deals[0].deal_murl
             return
@@ -325,10 +325,10 @@ export default {
           apikey: '5150d387b5b5ed6abda274d297496508'
         }
         let keyword = null
-        for (let tag of terminal.tags || []) {
+        for (let tag of (terminal.tags || [])) {
           if (tag == '餐饮') {
             keyword = terminal.title
-            return
+            break
           }
         }
         let params = {
