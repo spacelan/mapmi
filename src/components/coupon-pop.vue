@@ -8,10 +8,18 @@
     </div>
     <div id="terminalCoupon" v-if="canShowCoupon">
       <div class="RedBox">
-        <div class="avatar">
+        <div class="avatar" v-if="isRestaurant">
           <img :src="deals[0].tiny_image" class="headerImg zoomIn">
           <div class="h1">{{deals[0].title}}</div>
           <div class="p0">{{deals[0].min_title}}</div>
+          <div class="p1">距离{{deals[0].distance}}米</div>
+          <span class="s1">￥{{deals[0].promotion_price / 100}}</span>
+          <span class="s2">抵{{deals[0].market_price / 100}}</span>
+        </div>
+        <div class="avatar" v-else>
+          <img :src="deals[0].tiny_image" class="headerImg zoomIn">
+          <div class="h1">三里屯</div>
+          <div class="p0">商圈红包</div>
           <div class="p1">距离{{deals[0].distance}}米</div>
           <span class="s1">￥{{deals[0].promotion_price / 100}}</span>
           <span class="s2">抵{{deals[0].market_price / 100}}</span>
@@ -162,37 +170,39 @@
   height: 40px;
   border: 1px solid #BD503A;
   border-radius: 50%;
-  animation-duration: 6s;
+  animation-duration: 5s;
 }
 
 .h1 {
   position: absolute;
-  top: 5px;
-  left: 55px;
-  width: 75px;
-  font-size: 1.2rem;
+  top:12px;
+  left: 58px;
+  width: 70px;
+  font-size: 1.1rem;
   color: #080808;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: clip;
+  text-overflow:ellipsis; white-space:nowrap; overflow:hidden; 
+  /*text-overflow: clip;*/
 }
 
 .p0 {
   position: absolute;
-  top: 31px;
-  left: 55px;
-  width: 75px;
+  top: 34px;
+  left: 60px;
+  width: 70px;
   color: rgba(0, 0, 0, 0.67);
   font-size: 0.8rem;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: clip;
+  text-overflow:ellipsis; white-space:nowrap; overflow:hidden; 
+  /*text-overflow: clip;*/
 }
 
 .p1 {
   position: absolute;
-  top: 50px;
-  left: 55px;
+  top: 52px;
+  left: 56px;
   width: 75px;
   color: #8E8A8A;
   font-size: xx-small;
@@ -200,21 +210,21 @@
 
 .s1 {
   position: absolute;
-  top: 5px;
+  top: 15px;
   left: 130px;
-  width: 65px;
+  width: 62px;
   color: #0C0C0C;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   text-align: center;
 }
 
 .s2 {
   position: absolute;
-  top: 40px;
+  top: 45px;
   left: 130px;
-  width: 65px;
+  width: 60px;
   color: #060606;
-  font-size: 1rem;
+  font-size: 1.0rem;
   text-align: center;
 }
 
@@ -226,7 +236,6 @@
   font-size: 1rem;
   font-weight: 600;
   text-align: center;
-  ;
   background: #ffae00;
   color: #D03634;
   line-height: 34px;
@@ -307,9 +316,18 @@ export default {
       },
       canShowCoupon() {
         return !!(this.store.terminal && this.store.redBagState == 'clicked')
+      },
+      isRestaurant(){
+        for (let tag of (this.store.terminal.tags || [])) {
+          if (tag == '餐饮') {
+            return 1
+          }
+        }
       }
     },
+
     methods: {
+
       useRedBag() {
         for (let tag of (this.store.terminal.tags || [])) {
           if (tag == '餐饮') {
@@ -319,6 +337,7 @@ export default {
         }
         this.store.couponList = this.deals
       },
+
       fetchDealList(terminal) {
         console.log(JSON.parse(JSON.stringify(terminal)))
         let headers = {
@@ -352,27 +371,32 @@ export default {
           console.log(err)
         })
       },
+
       playAudio() {
         setTimeout(() => {
           let audio = document.getElementById('terminalAudio')
           audio.play()
         }, 200)
       },
+
       exit() {
         this.store.terminal = null
         this.store.redBagState = null
         this.store.target = null
       }
     },
+
     attached() {
       this.fetchDealList(this.store.terminal)
     },
+
     watch: {
       'store.redBagState' (val) {
         if (val == 'show') {
           this.playAudio()
         }
       }
+      
     }
 }
 </script>
