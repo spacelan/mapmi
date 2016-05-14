@@ -163,10 +163,9 @@ export default {
       map.addOverlay(this.polyline)
 
       let icon
-      icon = new BMap.Icon('./static/markers.png', new BMap.Size(25, 40), {
-        anchor: new BMap.Size(12, 40),
-        imageOffset: new BMap.Size(-200 - 25 * 0, -139),
-        imageSize: new BMap.Size(300, 300)
+      icon = new BMap.Icon('./static/route_begin.png', new BMap.Size(33, 45), {
+        anchor: new BMap.Size(16, 45),
+        imageSize: new BMap.Size(33, 45)
       })
       this.begin = new BMap.Marker(this.store.location, {
         icon: icon
@@ -191,11 +190,11 @@ export default {
     },
     toRedBag() {
       if (this.end) {
-        let icon = new BMap.Icon('./static/red_bag.gif', new BMap.Size(100, 100), {
-          size: new BMap.Size(100, 100)
+        let icon = new BMap.Icon('./static/red_bag_with_drop.gif', new BMap.Size(73, 51), {
+          imageSize: new BMap.Size(73, 51),
+          anchor: new BMap.Size(12, 45)
         })
         this.end.setIcon(icon)
-        this.end.setTop(true)
         this.end.addEventListener('click', e => {
           this.store.redBagState = 'clicked'
         })
