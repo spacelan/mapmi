@@ -124,7 +124,7 @@
 #terminalCoupon {
   position: absolute;
   top: 16%;
-  bottom: 16%;
+  bottom: 12%;
   left: 0;
   right: 0;
   overflow: hidden;
@@ -137,9 +137,9 @@
   left: -100%;
   right: -100%;
   width: 375px;
-  height: 385px;
+  height: 400px;
   margin: auto auto;
-  background: url(../assets/coupon-res.png) center center;
+  background: url(../assets/coupon-res.png) top center;
   animation: fromBack .5s;
 }
 
@@ -164,7 +164,8 @@
    width: 28px;
    height: 28px;
    background: url(../assets/search_delete.png) center center;
-   opacity: 0.5;
+   background-color: rgba(115, 102, 102, 0.64);;
+   border-radius: 50%;
 }
 
 .avatar {

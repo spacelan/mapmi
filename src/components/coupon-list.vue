@@ -78,7 +78,7 @@
 .headerfix {
   position: relative;
   width: 100%;
-  height: 125px;
+  height: 145px;
   float: left;
   clear: both;
   display: inline;
@@ -86,7 +86,8 @@
 }
 
 .header_left {
-  margin: 15px;
+  margin-top: 28px;
+  margin-left: 20px;
   width: 10%;
   float: left;
 }
@@ -98,7 +99,8 @@
 }
 
 .header_title {
-  margin-top: 15px;
+  margin-top: 28px;
+  margin-bottom: 20px;
   width: 60%;
   text-align: center;
   font-size: 1.2rem;
@@ -106,7 +108,8 @@
 }
 
 .header_right {
-  margin: 15px;
+  margin-left: 20px;
+  margin-top: 28px;
   width: 10%;
   float: right;
 }
@@ -177,7 +180,7 @@
 
 .couponList {
   position: absolute;
-  top: 125px;
+  top: 140px;
   width: 100%;
   bottom: 0;
   background-color: #ececec;
