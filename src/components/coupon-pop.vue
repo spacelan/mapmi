@@ -155,17 +155,18 @@
   }
 }
 
-.cancelButton{
-   position: absolute;
-   left: -100%;
-   right: -100%;
-   bottom:0;
-   margin: 0 auto;
-   width: 28px;
-   height: 28px;
-   background: url(../assets/search_delete.png) center center;
-   background-color: rgba(115, 102, 102, 0.64);;
-   border-radius: 50%;
+.cancelButton {
+  position: absolute;
+  left: -100%;
+  right: -100%;
+  bottom: 0;
+  margin: 0 auto;
+  width: 28px;
+  height: 28px;
+  background: url(../assets/search_delete.png) center center;
+  background-color: rgba(115, 102, 102, 0.64);
+  ;
+  border-radius: 50%;
 }
 
 .avatar {
@@ -189,7 +190,7 @@
 
 .h1 {
   position: absolute;
-  top:12px;
+  top: 12px;
   left: 56px;
   width: 75px;
   font-size: 1.1rem;
@@ -332,46 +333,36 @@ export default {
       canShowCoupon() {
         return !!(this.store.terminal && this.store.redBagState == 'clicked')
       },
-      isRestaurant(){
+      isRestaurant() {
         for (let tag of (this.store.terminal.tags || [])) {
           if (tag == '餐饮') {
-            return 1
+            return true
           }
         }
+        return false
       }
     },
-
     methods: {
-
       useRedBag() {
-        for (let tag of (this.store.terminal.tags || [])) {
-          if (tag == '餐饮') {
-            this.store.nuomiSrc = this.deals[0].deal_murl
-            return
-          }
+        if (this.isRestaurant) {
+          this.store.nuomiSrc = this.deals[0].deal_murl
+        } else {
+          this.store.couponList = this.deals
         }
-        this.store.couponList = this.deals
       },
-
       fetchDealList(terminal) {
         console.log(JSON.parse(JSON.stringify(terminal)))
         let headers = {
           apikey: '5150d387b5b5ed6abda274d297496508'
         }
-        let keyword = null
-        for (let tag of (terminal.tags || [])) {
-          if (tag == '餐饮') {
-            keyword = terminal.title
-            break
-          }
-        }
         let params = {
           'city_id': 100010000,
           'cat_ids': 326,
-          'keyword': keyword,
+          'keyword': this.isRestaurant ? terminal.title : null,
           'location': `${terminal.point.lng},${terminal.point.lat}`,
           'radius': 3000,
-          'sort': 5
+          'sort': 5,
+          'page_size': 20
         }
         this.$http.get({
           url: 'http://apis.baidu.com/baidunuomi/openapi/searchdeals',
@@ -381,20 +372,25 @@ export default {
           let data = res.data
           console.log(data)
           assert.equal(data.errno, 0)
-          this.deals = data.data.deals
+          // 去重
+          let arr = [data.data.deals[0]]
+          data.data.deals.forEach(deal => {
+            if (deal.title !== arr[arr.length - 1].title) {
+              arr.push(deal)
+            }
+          })
+          this.deals = arr
           this.store.redBagState = 'show'
         }).catch(err => {
           console.log(err)
         })
       },
-
       playAudio() {
         setTimeout(() => {
           let audio = document.getElementById('terminalAudio')
           audio.play()
         }, 200)
       },
-
       exit() {
         this.store.terminal = null
         this.store.redBagState = null
@@ -404,18 +400,15 @@ export default {
         this.store.redBagState = null;
       }
     },
-
     attached() {
       this.fetchDealList(this.store.terminal)
     },
-
     watch: {
       'store.redBagState' (val) {
         if (val == 'show') {
           this.playAudio()
         }
       }
-      
     }
 }
 </script>

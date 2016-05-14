@@ -3,7 +3,7 @@
     <div id="frameContainer">
       <iframe id="nuomiFrame" :src="src"></iframe>
     </div>
-    <div id="returnButton" v-touch:tap="returnToMap">返回地图</div>
+    <div id="returnButton" v-touch:tap="returnToMap">＜＜返回地图&nbsp</div>
   </div>
 </template>
 
@@ -32,8 +32,7 @@
   position: absolute;
   left: 0px;
   bottom: 100px;
-  width: 100px;
-  height: 25px;
+  line-height: 25px;
   cursor: pointer;
   color: #fff;
   background-color: #3385ff;
