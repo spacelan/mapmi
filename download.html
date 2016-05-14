@@ -1,14 +1,51 @@
-<!DOCTYPE html><html><head><title>mapmi</title><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no"><meta name=apple-mobile-web-app-capable content=yes><style>* {
-        border: 0;
-        margin: 0;
-      }
-      
-      html, body {
-        width: 100%;
-        height: 100%;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        user-select: none;
-        overflow: hidden;
-        font-family: Source Sans Pro, Helvetica, sans-serif;
-      }</style><script src="http://api.map.baidu.com/api?v=2.0&ak=1q6c0I5j737HGQfuUkHvLu6HSbgKUjuY"></script><script src=./static/LuShu.js></script><link href=./static/app.10a1c7b39cb934116cc04ae70848906e.css rel=stylesheet></head><body><app></app><script src=./static/app.5398b5084c0a64a03747.js></script></body></html>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>一诺千金</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+</head>
+
+<body>
+  <h1>请用外部浏览器打开</h1>
+  <script type="text/javascript">
+  /*
+   * 智能机浏览器版本信息:
+   *
+   */
+  var browser = {
+    versions: function() {
+      var u = navigator.userAgent
+      return { //移动终端浏览器版本信息 
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+        iPad: u.indexOf('iPad') > -1, //是否iPad
+        webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+        wechat: u.indexOf('MicroMessenger') > -1
+      };
+    }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+  }
+
+  if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+    window.location = "http://7xnvbf.com1.z0.glb.clouddn.com/index.html";
+  } else if (browser.versions.android) {
+    if (!browser.versions.wechat) {
+      window.location = "http://7xnvbf.com1.z0.glb.clouddn.com/mapmi.apk"
+    }
+
+  } else {
+    window.location = "http://7xnvbf.com1.z0.glb.clouddn.com/index.html";
+  }
+  </script>
+</body>
+
+</html>
