@@ -12,7 +12,7 @@
   padding: 10px 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  font-size: 0.9em;
+  font-size: 1rem;
   width: 90%;
   height: 46px;
   color: #333;
@@ -34,9 +34,9 @@
 </style>
 
 <template>
-<div id="search-box">
+<div id="search-box" v-show="canShow">
   <input id="search-input" v-model="input" @click.prevent="show" v-on:keyup.enter="submit" type="text" placeholder="搜地点，找路线">
-  <div id="search-clear" @click.prevent="clear" v-show="input.length > 0"></div>
+  <div id="search-clear" v-touch:tap="clear" v-show="input.length > 0"></div>
 </div>
 </template>
 
@@ -53,7 +53,7 @@ class SearchControl extends BMap.Control {
   initialize(map) {
     let search = document.getElementById('search-box')
     map.addEventListener('touchstart', () => {
-      search.blur()
+      document.getElementById('search-input').blur()
     })
       // 添加DOM元素到地图中
     map.getContainer().appendChild(search)
@@ -69,6 +69,11 @@ export default {
       store: lstore
     }
   },
+  computed: {
+    canShow() {
+      return !(this.store.terminal || this.store.nuomiSrc)
+    }
+  },
   ready() {
     setTimeout(() => {
       this.ac = new BMap.Autocomplete({
@@ -78,10 +83,13 @@ export default {
 
       this.local = new BMap.LocalSearch(map, {
         onSearchComplete: (rst) => {
-          lstore.target = rst.getPoi(0)
-          let point = lstore.target.point
-          map.centerAndZoom(point, 18)
-          this.addMarker(point)
+          let target = rst.getPoi(0)
+          if (target) {
+            lstore.target = target
+            let point = target.point
+            map.centerAndZoom(point, 18)
+            this.addMarker(point)
+          }
         }
       });
 
@@ -90,8 +98,8 @@ export default {
         let searchValue = value.province + value.city + value.district + value.street + value.streetNumber + value.business
         this.input = searchValue
         this.removeMarker()
+        this.local.setLocation(this.store.location || map)
         this.local.search(searchValue)
-        // document.getElementById('search-input').blur()
       });
 
       map.addControl(new SearchControl())
@@ -113,7 +121,9 @@ export default {
       if (this.input.length > 0) {
         document.getElementById('search-input').blur()
         this.removeMarker()
+        this.local.setLocation(this.store.location || map)
         this.local.search(this.input)
+        document.getElementById('search-input').blur()
       }
     },
     removeMarker() {
@@ -137,6 +147,7 @@ export default {
   watch: {
     input(val) {
       if (val.length > 0) {
+        this.ac.setLocation(this.store.location || map)
         this.ac.search(val)
       } else {
         this.clear()
@@ -145,9 +156,17 @@ export default {
     'store.arrPois' (val) {
       if (val) {
         this.removeMarker()
-      } else {
-        this.addMarker(lstore.target.point)
+      } else if (this.store.target) {
+        this.addMarker(this.store.target.point)
       }
+    },
+    'store.target' (val) {
+      if (!val) {
+        this.input = ''
+      }
+    },
+    canShow(val) {
+      console.log('canShow', val)
     }
   }
 }

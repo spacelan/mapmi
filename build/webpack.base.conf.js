@@ -25,7 +25,7 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   module: {
-    preLoaders: [
+    /*preLoaders: [
       {
         test: /\.vue$/,
         loader: 'eslint',
@@ -38,7 +38,7 @@ module.exports = {
         include: projectRoot,
         exclude: /node_modules/
       }
-    ],
+    ],*/
     loaders: [
       {
         test: /\.vue$/,
@@ -62,15 +62,15 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg|woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url',
         query: {
-          limit: 10000,
+          limit: 100000,
           name: utils.assetsPath('[name].[hash:7].[ext]')
         }
       }
     ]
   },
-  eslint: {
+  /*eslint: {
     formatter: require('eslint-friendly-formatter')
-  },
+  },*/
   vue: {
     loaders: utils.cssLoaders()
   }

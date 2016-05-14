@@ -1,5 +1,5 @@
 <template>
-  <div id="geolocation" @click.prevent="get">
+  <div id="geolocation" v-touch:tap="get">
     <img id="geo-default" class="geo-icon" v-show="state=='default'" src="../assets/loc-default.png">
     <img id="geo-loading" class="geo-icon" v-show="state=='loading'" src="../assets/loc-loading.gif">
     <img id="geo-success" class="geo-icon" v-show="state=='success'" src="../assets/loc-success.png">

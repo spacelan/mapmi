@@ -58,13 +58,13 @@
 
 <template>
   <div id="navi-box" v-show="canShow">
-	  <div id="route-button" @click.prevent="route" v-show="canRoute"></div>
+	  <div id="route-button" v-touch:tap="route" v-show="canRoute"></div>
     <div id="navi" v-show="canNavi">
-      <div id="navi-button1" @click.prevent="toggle">
+      <div id="navi-button1" v-touch:tap="toggle">
         <img id="navi-icon" src="../assets/route_nav_icon.png">
         <span>{{!isNavi ? '开始导航' : '暂停导航'}}</span>
       </div>
-      <div id="navi-button2" @click.prevent="clear">
+      <div id="navi-button2" v-touch:tap="clear">
         <span>结束导航</span>
       </div>
     </div>
@@ -135,11 +135,15 @@ export default {
         if (!this.lushu) {
           this.lushu = new BMapLib.LuShu(map, this.store.arrPois, {
             autoView: true,
-            icon: new BMap.Icon('./static/loc.png', new BMap.Size(26, 26)),
             speed: 4500,
             enableRotation: true,
             end: () => {
+              map.setViewport({
+                center: this.store.target.point,
+                zoom: map.getZoom()
+              })
               this.isNavi = false
+              this.store.terminal = this.store.target
             }
           });
         }
@@ -154,7 +158,7 @@ export default {
     },
     addOverlay(val) {
       this.polyline = new BMap.Polyline(val, {
-        strokeColor: '#111'
+        strokeColor: '#3385ff'
       })
       map.addOverlay(this.polyline)
 
@@ -185,6 +189,18 @@ export default {
       map.removeOverlay(this.begin)
       map.removeOverlay(this.end)
     },
+    toRedBag() {
+      if (this.end) {
+        let icon = new BMap.Icon('./static/red_bag.gif', new BMap.Size(100, 100), {
+          size: new BMap.Size(100, 100)
+        })
+        this.end.setIcon(icon)
+        this.end.setTop(true)
+        this.end.addEventListener('click', e => {
+          this.store.redBagState = 'clicked'
+        })
+      }
+    },
     clear() {
       this.store.arrPois = null
     }
@@ -195,7 +211,7 @@ export default {
         this.store.arrPois = null
       }
     },
-    'store.arrPois'(val) {
+    'store.arrPois' (val) {
       this.removeOverlay()
       if (val) {
         this.addOverlay(val)
@@ -203,8 +219,13 @@ export default {
         this.stop()
       }
     },
-    'store.target'(val) {
+    'store.target' (val) {
       this.clear()
+    },
+    'store.redBagState' (val) {
+      if (val == 'show') {
+        this.toRedBag()
+      }
     }
   }
 }

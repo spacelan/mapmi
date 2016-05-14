@@ -1,34 +1,39 @@
 <template>
   <div id="app">
-    <navi></navi>
-    <search></search>
-    <geo></geo>
+    <map></map>
+    <pop v-if="store.terminal"></pop>
+    <list v-if="store.couponList"></list>
+    <nuomi v-if="store.nuomiSrc"></nuomi>
   </div>
 </template>
 
+<style>
+#app {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 0;
+}
+</style>
+
 <script>
-import Navi from './components/navi-button.vue'
-import Search from './components/search-box.vue'
-import Geo from './components/geolocation.vue'
+import Map from './components/map.vue'
+import Pop from './components/coupon-pop.vue'
+import List from './components/coupon-list.vue'
+import Nuomi from './components/nuomi-frame.vue'
 
 export default {
   components: {
-    Navi,
-    Search,
-    Geo
+    Map,
+    Pop,
+    List,
+    Nuomi
   },
-  ready() {
-    setTimeout(() => {
-      this.initControl()
-    }, 0)
-  },
-  methods: {
-    initControl() {
-      map.addControl(new BMap.NavigationControl({
-        anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
-        offset: new BMap.Size(20, 200),
-        type: BMAP_NAVIGATION_CONTROL_ZOOM
-      }))
+  data() {
+    return {
+      store: lstore
     }
   }
 }
