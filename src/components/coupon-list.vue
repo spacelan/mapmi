@@ -1,6 +1,7 @@
 <template>
   <div class="container_coupon">
     <!-- header -->
+    <div class="headerfix">
     <div class="header">
       <div class="header_left" v-touch:tap="backTopop">
         <img src="../assets/header_back.png" style="width:15px;height: 20px">
@@ -23,6 +24,8 @@
       <li class="cur-right">{{index_z}}<img src="../assets/index-down.png" class="index-pic"></li>
       <li class="">{{index_s}}<img src="../assets/index-down.png" class="index-pic"></li>
     </ul>
+    </div>
+
     <!-- couponList -->
       <div class="couponList" id="tab_rest" v-if="foodOrMovie=='food'">
         <template v-for="coupon in store.couponList">
@@ -66,6 +69,16 @@
 .header {
   position: relative;
   width: 100%;
+  float: left;
+  clear: both;
+  display: inline;
+  background-color: #f7f7f7;
+}
+
+.headerfix {
+  position: relative;
+  width: 100%;
+  height: 125px;
   float: left;
   clear: both;
   display: inline;
@@ -163,12 +176,13 @@
 }
 
 .couponList {
-  position: relative;
-  margin-top: 5%;
+  position: absolute;
+  top: 125px;
   width: 100%;
-  height: 75%;
+  bottom: 0;
   background-color: #ececec;
   overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 ul {

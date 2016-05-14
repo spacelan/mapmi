@@ -18,13 +18,14 @@
         </div>
         <div class="avatar" v-else>
           <img :src="deals[0].tiny_image" class="headerImg zoomIn">
-          <div class="h1">三里屯</div>
+          <div class="h1">{{store.terminal.title}}</div>
           <div class="p0">商圈红包</div>
           <div class="p1">距离{{deals[0].distance}}米</div>
-          <span class="s1">￥{{deals[0].promotion_price / 100}}</span>
-          <span class="s2">抵{{deals[0].market_price / 100}}</span>
+          <span class="s1">￥ 5 </span>
+          <span class="s2">立 减</span>
         </div>
         <div class="useButton flipInX" v-touch:tap="useRedBag">使用红包</div>
+        <div class="cancelButton" v-touch:tap="cancelRedBag"></div>
       </div>
     </div>
     <div id="terminalFooter">
@@ -154,6 +155,18 @@
   }
 }
 
+.cancelButton{
+   position: absolute;
+   left: -100%;
+   right: -100%;
+   bottom:0;
+   margin: 0 auto;
+   width: 28px;
+   height: 28px;
+   background: url(../assets/search_delete.png) center center;
+   opacity: 0.5;
+}
+
 .avatar {
   position: absolute;
   top: 110px;
@@ -176,27 +189,25 @@
 .h1 {
   position: absolute;
   top:12px;
-  left: 58px;
-  width: 70px;
+  left: 56px;
+  width: 75px;
   font-size: 1.1rem;
   color: #080808;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow:ellipsis; white-space:nowrap; overflow:hidden; 
-  /*text-overflow: clip;*/
+  text-overflow: ellipsis;
 }
 
 .p0 {
   position: absolute;
   top: 34px;
-  left: 60px;
-  width: 70px;
+  left: 56px;
+  width: 75px;
   color: rgba(0, 0, 0, 0.67);
   font-size: 0.8rem;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow:ellipsis; white-space:nowrap; overflow:hidden; 
-  /*text-overflow: clip;*/
+  text-overflow: ellipsis;
 }
 
 .p1 {
@@ -206,6 +217,9 @@
   width: 75px;
   color: #8E8A8A;
   font-size: xx-small;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .s1 {
@@ -383,6 +397,9 @@ export default {
         this.store.terminal = null
         this.store.redBagState = null
         this.store.target = null
+      },
+      cancelRedBag() {
+        this.store.redBagState = null;
       }
     },
 
