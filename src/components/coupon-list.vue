@@ -1,8 +1,9 @@
 <template>
   <div class="container_coupon">
     <!-- header -->
+    <div class="headerfix">
     <div class="header">
-      <div class="header_left">
+      <div class="header_left" v-touch:tap="backTopop">
         <img src="../assets/header_back.png" style="width:15px;height: 20px">
       </div>
       <div class="header_right ">
@@ -14,20 +15,20 @@
     </div>
     <!-- tabs -->
     <ul class="tab">
-      <li id="liRest" class="cur_right" v-touch:tap="changeTabForRest">{{tab_r}}</li>
-      <li id="liMovie" class="cur_left" v-touch:tap="changeTabForMovie">{{tab_m}}</li>
+      <li id="liRest" class="cur_rest" v-touch:tap="changeTabForMovie" >{{tab_r}}</li>
+      <li id="liMovie" class="cur_movie" v-touch:tap="changeTabForRest">{{tab_m}}</li>
     </ul>
-    <script type="text/javascript">
-    </script>
+
     <!-- index -->
     <ul class="index">
       <li class="cur-right">{{index_z}}<img src="../assets/index-down.png" class="index-pic"></li>
       <li class="">{{index_s}}<img src="../assets/index-down.png" class="index-pic"></li>
     </ul>
+    </div>
+
     <!-- couponList -->
-    <div class="main">
-      <div class="couponList" id="tab_rest">
-        <ul v-for="coupon in store.couponList">
+      <div class="couponList" id="tab_rest" v-if="foodOrMovie=='food'">
+        <template v-for="coupon in store.couponList">
             <div class="coupon" v-touch:tap="toNuomi(coupon.deal_murl)">
               <div class="coupon_priceicon">￥</div>
               <div class="coupon_priceicon coupon_price">{{coupon.current_price/100}}</div>
@@ -35,26 +36,23 @@
               <div class="coupon_distance">距离 {{coupon.distance}}米</div>
               <div class="coupon_title">{{coupon.title}}</div>
               <div class="coupon_title_tag">{{coupon.min_title}}</div>
-              <div class="coupon_info">{{标签}} | {{coupon.score}}分 | 人均{{coupon.current_price/100+8}}元</div>
+              <div class="coupon_info">口碑：{{coupon.score}}分 | 人均：{{coupon.current_price/100+8}}元</div>
             </div>
-        </ul>
+        </template>
       </div>
-      <div class="couponListhide" id="tab_movie">
-        <ul v-for="movieArray in movieArrays">
-          <a href={{movieArray.dear_murl}} target="_blank">
-            <div class="coupon">
+      <div class="couponList" id="tab_movie" v-if="foodOrMovie=='movie'">
+        <template v-for="movieArray in movieArrays">
+            <div class="coupon" v-touch:tap="toNuomi(movieArray.dear_murl)">
               <div class="coupon_priceicon">￥</div>
-              <div class="coupon_priceicon coupon_price">{{movieArray.current_price/100}}</div>
+              <div class="coupon_priceicon_movie coupon_price_movie">{{movieArray.current_price/100}}</div>
               <div class="coupon_distance">距离 {{movieArray.distance}}米</div>
               <div class="coupon_title">{{movieArray.title}}</div>
               <div class="coupon_title_tag">{{movieArray.title_tag}}</div>
               <div class="coupon_info">{{movieArray.tag}} | {{movieArray.score}}分 | 人均{{movieArray.current_price/100+8}}元</div>
             </div>
-          </a>
-        </ul>
-        <div class="footer">没有更多优惠券了 ， <a href="" style="text-decoration: none;color:#45aaff">查看不可用</a> > </div>
+        </template>
+        <div class="footer">没有更多优惠券了 ， <div style="color:#45aaff;display:inline">查看不可用</div> > </div>
       </div>
-    </div>
   </div>
 </template>
 <style scoped>
@@ -65,10 +63,7 @@
   width: 100%;
   height: 100%;
   background-color: #ececec;
-}
-
-.hide {
-  visibility: hidden;
+  overflow: hidden;
 }
 
 .header {
@@ -80,8 +75,19 @@
   background-color: #f7f7f7;
 }
 
+.headerfix {
+  position: relative;
+  width: 100%;
+  height: 145px;
+  float: left;
+  clear: both;
+  display: inline;
+  background-color: #f7f7f7;
+}
+
 .header_left {
-  margin: 15px;
+  margin-top: 28px;
+  margin-left: 20px;
   width: 10%;
   float: left;
 }
@@ -93,14 +99,17 @@
 }
 
 .header_title {
-  margin-top: 15px;
+  margin-top: 28px;
+  margin-bottom: 20px;
+  width: 60%;
   text-align: center;
   font-size: 1.2rem;
   color: rgba(14, 14, 14, 0.73);
 }
 
 .header_right {
-  margin: 15px;
+  margin-left: 20px;
+  margin-top: 28px;
   width: 10%;
   float: right;
 }
@@ -128,14 +137,14 @@
   display: block;
 }
 
-.tab li.cur_right {
+.tab li.cur_rest {
   color: #fff;
   background: #FB7397;
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
 }
 
-.tab li.cur_left {
+.tab li.cur_movie {
   color: rgba(14, 14, 14, 0.73);
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
@@ -169,52 +178,33 @@
   position: relative;
 }
 
-.main {
-  width: 100%;
-  float: left;
-  clear: both;
-  background-color: #ececec;
-}
-
 .couponList {
   position: absolute;
-  width: 90%;
-  top: 25%;
-  left: 5%;
+  top: 140px;
+  width: 100%;
+  bottom: 0;
   background-color: #ececec;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 ul {
   padding: 0;
 }
 
-.couponListBackground {
-  width: 100%;
-  position: absolute;
-  background-color: #ececec;
-}
-
-.couponListhide {
-  position: absolute;
-  width: 90%;
-  top: 25%;
-  left: 5%;
-  margin-bottom: 20px;
-  visibility: hidden;
-}
 
 .coupon {
-  width: 100%;
-  margin: auto;
+  width: 337px;
   height: 105px;
   background-image: url(../assets/coupon.png);
+  background-size: 337px 105px;
   background-repeat: no-repeat;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin: 10px auto;
   box-shadow: 1px 2px 1px #B5B1B1;
 }
 
-.coupon_priceicon {
+.coupon_priceicon_movie {
   position: absolute;
   float: left;
   margin-left: 15px;
@@ -222,31 +212,46 @@ ul {
   font-size: 1.4rem;
   color: #fff;
 }
-
-.coupon_price {
+.coupon_priceicon {
+  position: absolute;
+  float: left;
+  margin-left: 12px;
+  margin-top: 26px;
+  font-size: 1.2rem;
+  color: #fff;
+}
+.coupon_price_movie {
   position: absolute;
   float: left;
   margin-left: 35px;
-  margin-top: 25px;
+  margin-top: 15px;
   font-size: 2.5rem;
+  color: #fff;
+}
+.coupon_price {
+  position: absolute;
+  float: left;
+  margin-left: 30px;
+  margin-top: 15px;
+  font-size: 2.1rem;
   color: #fff;
 }
 
 .coupon_allprice {
   position: absolute;
   float: left;
-  margin-left: 78px;
-  margin-top: 44px;
-  font-size: 1.0rem;
+  margin-left: 65px;
+  margin-top: 54px;
+  font-size: 0.9rem;
   color: rgba(255, 247, 247, 0.92);
 }
 
 .coupon_distance {
   position: absolute;
   float: left;
-  margin-left: 30px;
+  margin-left: 28px;
   margin-top: 85px;
-  font-size: 1.0rem;
+  font-size: 0.7rem;
   color: rgba(255, 247, 247, 0.92);
 }
 
@@ -255,7 +260,9 @@ ul {
   margin-left: 134px;
   margin-top: 10px;
   font-size: 1.6rem;
+  width:200px;
   color: #000;
+  text-overflow:ellipsis; white-space:nowrap; overflow:hidden; 
 }
 
 .coupon_title_tag {
@@ -263,7 +270,9 @@ ul {
   margin-left: 135px;
   margin-top: 45px;
   font-size: 1.0rem;
+  width:210px;
   color: #000;
+  text-overflow:ellipsis; white-space:nowrap; overflow:hidden; 
 }
 
 .coupon_info {
@@ -291,64 +300,6 @@ export default {
         tab_m: '电影',
         index_z: '综合排序',
         index_s: '分类筛选',
-
-        //接口示例
-        restArrays: [{
-          current_price: '2900',
-          market_price: '4600',
-          distance: '100',
-          title: '必胜客',
-          title_tag: '三里屯店',
-          score: '4.01',
-          tag: '检索标签',
-          dear_murl: 'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
-
-        }, {
-          current_price: '5000',
-          market_price: '4700',
-          distance: '80',
-          title: '海底捞',
-          title_tag: '三里屯店',
-          score: '3.5',
-          tag: '检索标签',
-          dear_murl: 'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
-        }, {
-          current_price: '5000',
-          market_price: '4700',
-          distance: '80',
-          title: '海底捞',
-          title_tag: '三里屯店',
-          score: '3.5',
-          tag: '检索标签',
-          dear_murl: 'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
-        }, {
-          current_price: '5000',
-          market_price: '4700',
-          distance: '80',
-          title: '海底捞',
-          title_tag: '三里屯店',
-          score: '3.5',
-          tag: '检索标签',
-          dear_murl: 'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
-        }, {
-          current_price: '5000',
-          market_price: '4700',
-          distance: '80',
-          title: '海底捞',
-          title_tag: '三里屯店',
-          score: '3.5',
-          tag: '检索标签',
-          dear_murl: 'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
-        }, {
-          current_price: '5000',
-          market_price: '4700',
-          distance: '80',
-          title: '海底捞',
-          title_tag: '三里屯店',
-          score: '3.5',
-          tag: '检索标签',
-          dear_murl: 'http://www.nuomi.com/cps/redirect?cid=openapi&app_id=78537b4acb7ee64a1759840229084ce2&url=http%3A%2F%2Fm.nuomi.com%2Fbj%2Fdeal%2Fwdwzdpxs',
-        }, ],
 
         //接口示例
         movieArrays: [
@@ -382,30 +333,32 @@ export default {
             dear_murl: 'https://mdianying.baidu.com/info/cinema/detail?cinemaId=135&sfrom=newnuomi&source=nuomi&subchannel=nuominashare',
           },
         ],
-        store: lstore
+        store: lstore,
+        foodOrMovie: 'food'
       }
     },
     methods: {
       changeTabForRest() {
-        document.getElementById("tab_rest").style.visibility = 'visible';
-        document.getElementById("tab_movie").style.visibility = 'hidden';
-        document.getElementById("liRest").style.background = '#FB7397';
-        document.getElementById("liMovie").style.background = '#ccc';
-        document.getElementById("liMovie").style.color = 'rgba(14, 14, 14, 0.73)';
-        document.getElementById("liRest").style.color = '#fff';
-
-      },
-      changeTabForMovie() {
-        document.getElementById("tab_rest").style.visibility = 'hidden';
-        document.getElementById("tab_movie").style.visibility = 'visible';
+        this.foodOrMovie='movie'
         document.getElementById("liMovie").style.background = '#FB7397';
         document.getElementById("liRest").style.background = '#ccc';
         document.getElementById("liMovie").style.color = '#fff';
         document.getElementById("liRest").style.color = 'rgba(14, 14, 14, 0.73)';
+
+      },
+      changeTabForMovie() {
+        this.foodOrMovie='food'       
+        document.getElementById("liRest").style.background = '#FB7397';
+        document.getElementById("liMovie").style.background = '#ccc';
+        document.getElementById("liMovie").style.color = 'rgba(14, 14, 14, 0.73)';
+        document.getElementById("liRest").style.color = '#fff';
       },
       toNuomi(url) {
         this.store.nuomiSrc = url
-      }
+      },
+      backTopop(){
+        this.store.couponList = null;
+      },
     }
 }
 </script>

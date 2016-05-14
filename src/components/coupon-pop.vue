@@ -8,7 +8,7 @@
     </div>
     <div id="terminalCoupon" v-if="canShowCoupon">
       <div class="RedBox">
-        <div class="avatar">
+        <div class="avatar" v-if="isRestaurant">
           <img :src="deals[0].tiny_image" class="headerImg zoomIn">
           <div class="h1">{{deals[0].title}}</div>
           <div class="p0">{{deals[0].min_title}}</div>
@@ -16,7 +16,16 @@
           <span class="s1">￥{{deals[0].promotion_price / 100}}</span>
           <span class="s2">抵{{deals[0].market_price / 100}}</span>
         </div>
+        <div class="avatar" v-else>
+          <img :src="deals[0].tiny_image" class="headerImg zoomIn">
+          <div class="h1">{{store.terminal.title}}</div>
+          <div class="p0">商圈红包</div>
+          <div class="p1">距离{{deals[0].distance}}米</div>
+          <span class="s1">￥ 5 </span>
+          <span class="s2">立 减</span>
+        </div>
         <div class="useButton flipInX" v-touch:tap="useRedBag">使用红包</div>
+        <div class="cancelButton" v-touch:tap="cancelRedBag"></div>
       </div>
     </div>
     <div id="terminalFooter">
@@ -115,7 +124,7 @@
 #terminalCoupon {
   position: absolute;
   top: 16%;
-  bottom: 16%;
+  bottom: 12%;
   left: 0;
   right: 0;
   overflow: hidden;
@@ -128,9 +137,9 @@
   left: -100%;
   right: -100%;
   width: 375px;
-  height: 385px;
+  height: 400px;
   margin: auto auto;
-  background: url(../assets/coupon-res.png) center center;
+  background: url(../assets/coupon-res.png) top center;
   animation: fromBack .5s;
 }
 
@@ -144,6 +153,19 @@
   100% {
     transform: scale(1);
   }
+}
+
+.cancelButton{
+   position: absolute;
+   left: -100%;
+   right: -100%;
+   bottom:0;
+   margin: 0 auto;
+   width: 28px;
+   height: 28px;
+   background: url(../assets/search_delete.png) center center;
+   background-color: rgba(115, 102, 102, 0.64);;
+   border-radius: 50%;
 }
 
 .avatar {
@@ -162,59 +184,62 @@
   height: 40px;
   border: 1px solid #BD503A;
   border-radius: 50%;
-  animation-duration: 6s;
+  animation-duration: 5s;
 }
 
 .h1 {
   position: absolute;
-  top: 5px;
-  left: 55px;
+  top:12px;
+  left: 56px;
   width: 75px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #080808;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: clip;
+  text-overflow: ellipsis;
 }
 
 .p0 {
   position: absolute;
-  top: 31px;
-  left: 55px;
+  top: 34px;
+  left: 56px;
   width: 75px;
   color: rgba(0, 0, 0, 0.67);
   font-size: 0.8rem;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: clip;
+  text-overflow: ellipsis;
 }
 
 .p1 {
   position: absolute;
-  top: 50px;
-  left: 55px;
+  top: 52px;
+  left: 56px;
   width: 75px;
   color: #8E8A8A;
   font-size: xx-small;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .s1 {
   position: absolute;
-  top: 5px;
+  top: 15px;
   left: 130px;
-  width: 65px;
+  width: 62px;
   color: #0C0C0C;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   text-align: center;
 }
 
 .s2 {
   position: absolute;
-  top: 40px;
+  top: 45px;
   left: 130px;
-  width: 65px;
+  width: 60px;
   color: #060606;
-  font-size: 1rem;
+  font-size: 1.0rem;
   text-align: center;
 }
 
@@ -226,7 +251,6 @@
   font-size: 1rem;
   font-weight: 600;
   text-align: center;
-  ;
   background: #ffae00;
   color: #D03634;
   line-height: 34px;
@@ -307,9 +331,18 @@ export default {
       },
       canShowCoupon() {
         return !!(this.store.terminal && this.store.redBagState == 'clicked')
+      },
+      isRestaurant(){
+        for (let tag of (this.store.terminal.tags || [])) {
+          if (tag == '餐饮') {
+            return 1
+          }
+        }
       }
     },
+
     methods: {
+
       useRedBag() {
         for (let tag of (this.store.terminal.tags || [])) {
           if (tag == '餐饮') {
@@ -319,6 +352,7 @@ export default {
         }
         this.store.couponList = this.deals
       },
+
       fetchDealList(terminal) {
         console.log(JSON.parse(JSON.stringify(terminal)))
         let headers = {
@@ -352,27 +386,35 @@ export default {
           console.log(err)
         })
       },
+
       playAudio() {
         setTimeout(() => {
           let audio = document.getElementById('terminalAudio')
           audio.play()
         }, 200)
       },
+
       exit() {
         this.store.terminal = null
         this.store.redBagState = null
         this.store.target = null
+      },
+      cancelRedBag() {
+        this.store.redBagState = null;
       }
     },
+
     attached() {
       this.fetchDealList(this.store.terminal)
     },
+
     watch: {
       'store.redBagState' (val) {
         if (val == 'show') {
           this.playAudio()
         }
       }
+      
     }
 }
 </script>
