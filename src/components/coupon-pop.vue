@@ -13,8 +13,8 @@
           <div class="h1">{{deals[0].title}}</div>
           <div class="p0">{{deals[0].min_title}}</div>
           <div class="p1">距离{{deals[0].distance}}米</div>
-          <span class="s1">￥{{deals[0].promotion_price / 100}}</span>
-          <span class="s2">抵{{deals[0].market_price / 100}}</span>
+          <span class="s1">￥{{(deals[0].current_price / 100 - 5) | toFixed2}}</span>
+          <span class="s2">抵{{(deals[0].market_price / 100) | toFixed2}}</span>
         </div>
         <div class="avatar" v-else>
           <img :src="deals[0].tiny_image" class="headerImg zoomIn">
@@ -408,6 +408,12 @@ export default {
         if (val == 'show') {
           this.playAudio()
         }
+      }
+    },
+    filters: {
+      toFixed2(val) {
+        let rst = val.toString().match(/\d+(.\d\d?)?/)
+        return rst ? rst[0] : val
       }
     }
 }

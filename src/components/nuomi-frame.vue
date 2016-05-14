@@ -36,6 +36,7 @@
   cursor: pointer;
   color: #fff;
   background-color: #3385ff;
+  border-radius: 0 25px 25px 0;
 }
 </style>
 
@@ -60,26 +61,24 @@ export default {
     }
   },
   attached() {
-    let discount = 10
+    let discount = 5
     let privilegeHtml = `<div class="privilege-list"><div class="privilege-item" mon="area=privilegeList"><a href="javascript:;" class="fake-icon" mon="position=1"><em class="text">地图红包减${discount}元</em></a></div></div>`
     let fakeIcon = `<a href="javascript:;" class="fake-icon" mon="position=0"><em class="text">地图红包减${discount}元</em></a>`
     let frame = document.getElementById('nuomiFrame')
     frame.onload = frame.onreadystatechange = () => {
       setTimeout(() => {
         let privilege = frame.contentDocument.getElementById('j-detail-privilege')
-        if (privilege.children[0]) {
-          privilege.children[0].children[0].innerHTML = fakeIcon + privilege.children[0].children[0].innerHTML
-        } else {
-          privilege.innerHTML = privilegeHtml
-        }
+        privilege.setAttribute('id', 'j-detail-privilege0')
+        privilege.innerHTML = privilegeHtml
 
         let buySegment = frame.contentDocument.getElementsByClassName('buy-segment')[0]
 
         if (buySegment.children[0].getAttribute('class') === 'current-price') {
-          buySegment.children[0].children[0].innerText -= discount
+          buySegment.children[0].children[0].innerText = (buySegment.children[0].children[0].innerText - discount).toString().match(/\d+(.\d\d?)?/)[0]
         } else {
+          let oldCurrentPrice = buySegment.children[0].children[0].innerText
           let buyBtn = buySegment.children[2].children[0]
-          buyBtn.children[0].children[1].children[0].innerText -= discount
+          buyBtn.children[0].children[1].children[0].innerText = (oldCurrentPrice - discount).toString().match(/\d+(.\d\d?)?/)[0]
         }
       }, 1000)
     }

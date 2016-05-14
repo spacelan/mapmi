@@ -31,12 +31,12 @@
         <template v-for="coupon in store.couponList">
             <div class="coupon" v-touch:tap="toNuomi(coupon.deal_murl)">
               <div class="coupon_priceicon">￥</div>
-              <div class="coupon_priceicon coupon_price">{{coupon.current_price/100}}</div>
-              <div class="coupon_allprice">抵{{coupon.market_price/100}}</div>
+              <div class="coupon_priceicon coupon_price">{{(coupon.current_price/100 - 5) | toFixed2}}</div>
+              <div class="coupon_allprice">抵{{(coupon.market_price/100) | toFixed2}}</div>
               <div class="coupon_distance">距离 {{coupon.distance}}米</div>
               <div class="coupon_title">{{coupon.title}}</div>
               <div class="coupon_title_tag">{{coupon.min_title}}</div>
-              <div class="coupon_info">口碑：{{coupon.score}}分 | 人均：{{coupon.current_price/100+8}}元</div>
+              <div class="coupon_info">口碑：{{coupon.score}}分 | 人均：{{(coupon.current_price/100+8) | toFixed2}}元</div>
             </div>
         </template>
       </div>
@@ -359,6 +359,12 @@ export default {
       backTopop(){
         this.store.couponList = null;
       },
+    },
+    filters: {
+      toFixed2(val) {
+        let rst = val.toString().match(/\d+(.\d\d?)?/)
+        return rst ? rst[0] : val
+      }
     }
 }
 </script>
