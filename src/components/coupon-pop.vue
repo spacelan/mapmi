@@ -370,7 +370,8 @@ export default {
           'cat_ids': 326,
           'keyword': keyword,
           'location': `${terminal.point.lng},${terminal.point.lat}`,
-          'radius': 3000
+          'radius': 3000,
+          'sort': 5
         }
         this.$http.get({
           url: 'http://apis.baidu.com/baidunuomi/openapi/searchdeals',
