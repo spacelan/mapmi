@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
   </head>
   <body class="fullpage">
-  	<!-- <h1>请用外部浏览器打开</h1> -->
+    <!-- <h1>请用外部浏览器打开</h1> -->
     <script type="text/javascript">
     /*
     * 智能机浏览器版本信息:
@@ -37,13 +37,15 @@
     window.location="http://7xnvbf.com1.z0.glb.clouddn.com/index.html";
     }
     else if (browser.versions.android) {
-    	if (!browser.versions.wechat) {
-    		window.location="http://7xnvbf.com1.z0.glb.clouddn.com/mapmi.apk"
-    	}
-        document.body.innerHTML = '<p>请用外部浏览器打开</p>';
+        if (!browser.versions.wechat) {
+            window.location="http://7xnvbf.com1.z0.glb.clouddn.com/mapmi.apk"
+        }
+        else {
+            document.body.innerHTML = '<p>请用外部浏览器打开</p>'
+        }
     }
     else {
-    	window.location="http://7xnvbf.com1.z0.glb.clouddn.com/index.html";
+        window.location="http://7xnvbf.com1.z0.glb.clouddn.com/index.html";
     }
     </script>
   </body>
