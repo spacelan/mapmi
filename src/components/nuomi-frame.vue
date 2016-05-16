@@ -63,7 +63,7 @@ export default {
   attached() {
     let discount = 5
     let privilegeHtml = `<div class="privilege-list"><div class="privilege-item" mon="area=privilegeList"><a href="javascript:;" class="fake-icon" mon="position=1"><em class="text">地图红包减${discount}元</em></a></div></div>`
-    let fakeIcon = `<a href="javascript:;" class="fake-icon" mon="position=0"><em class="text">地图红包减${discount}元</em></a>`
+    // let fakeIcon = `<a href="javascript:;" class="fake-icon" mon="position=0"><em class="text">地图红包减${discount}元</em></a>`
     let frame = document.getElementById('nuomiFrame')
     frame.onload = frame.onreadystatechange = () => {
       setTimeout(() => {

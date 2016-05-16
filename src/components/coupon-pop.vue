@@ -313,108 +313,108 @@ import assert from 'assert'
 
 export default {
   data() {
-      return {
-        deals: [{
-          tiny_image: './static/dayali.jpg',
-          title: '大鸭梨lalalalala',
-          min_title: '西三旗店',
-          distance: '215',
-          promotion_price: '75',
-          market_price: '100',
-          deal_murl: 'http://m.nuomi.com/bj/deal/12tzhuju'
-        }],
-        store: lstore
+    return {
+      deals: [{
+        tiny_image: './static/dayali.jpg',
+        title: '大鸭梨lalalalala',
+        min_title: '西三旗店',
+        distance: '215',
+        promotion_price: '75',
+        market_price: '100',
+        deal_murl: 'http://m.nuomi.com/bj/deal/12tzhuju'
+      }],
+      store: lstore
+    }
+  },
+  computed: {
+    canShow() {
+      return !!this.store.terminal
+    },
+    canShowCoupon() {
+      return !!(this.store.terminal && this.store.redBagState === 'clicked')
+    },
+    isRestaurant() {
+      for (let tag of (this.store.terminal.tags || [])) {
+        if (tag === '餐饮') {
+          return true
+        }
+      }
+      return false
+    }
+  },
+  methods: {
+    useRedBag() {
+      if (this.isRestaurant) {
+        this.store.nuomiSrc = this.deals[0].deal_murl
+      } else {
+        this.store.couponList = this.deals
       }
     },
-    computed: {
-      canShow() {
-        return !!this.store.terminal
-      },
-      canShowCoupon() {
-        return !!(this.store.terminal && this.store.redBagState == 'clicked')
-      },
-      isRestaurant() {
-        for (let tag of (this.store.terminal.tags || [])) {
-          if (tag == '餐饮') {
-            return true
-          }
-        }
-        return false
+    fetchDealList(terminal) {
+      console.log(JSON.parse(JSON.stringify(terminal)))
+      let headers = {
+        apikey: '5150d387b5b5ed6abda274d297496508'
       }
-    },
-    methods: {
-      useRedBag() {
-        if (this.isRestaurant) {
-          this.store.nuomiSrc = this.deals[0].deal_murl
-        } else {
-          this.store.couponList = this.deals
-        }
-      },
-      fetchDealList(terminal) {
-        console.log(JSON.parse(JSON.stringify(terminal)))
-        let headers = {
-          apikey: '5150d387b5b5ed6abda274d297496508'
-        }
-        let params = {
-          'city_id': 100010000,
-          'cat_ids': 326,
-          'keyword': this.isRestaurant ? terminal.title : null,
-          'location': `${terminal.point.lng},${terminal.point.lat}`,
-          'radius': 3000,
-          'sort': 5,
-          'page_size': 20
-        }
-        this.$http.get({
-          url: 'http://apis.baidu.com/baidunuomi/openapi/searchdeals',
-          headers: headers,
-          params: params
-        }).then(res => {
-          let data = res.data
-          console.log(data)
-          assert.equal(data.errno, 0)
+      let params = {
+        'city_id': 100010000,
+        'cat_ids': 326,
+        'keyword': this.isRestaurant ? terminal.title : null,
+        'location': `${terminal.point.lng},${terminal.point.lat}`,
+        'radius': 3000,
+        'sort': 5,
+        'page_size': 20
+      }
+      this.$http.get({
+        url: 'http://apis.baidu.com/baidunuomi/openapi/searchdeals',
+        headers: headers,
+        params: params
+      }).then(res => {
+        let data = res.data
+        console.log(data)
+        assert.equal(data.errno, 0)
           // 去重
-          let arr = [data.data.deals[0]]
-          data.data.deals.forEach(deal => {
-            if (deal.title !== arr[arr.length - 1].title) {
-              arr.push(deal)
-            }
-          })
-          this.deals = arr
-          this.store.redBagState = 'show'
-        }).catch(err => {
-          console.log(err)
+        let arr = [data.data.deals[0]]
+        data.data.deals.forEach(deal => {
+          if (deal.title !== arr[arr.length - 1].title) {
+            arr.push(deal)
+          }
         })
-      },
-      playAudio() {
-        setTimeout(() => {
-          let audio = document.getElementById('terminalAudio')
-          audio.play()
-        }, 200)
-      },
-      exit() {
-        this.store.terminal = null
-        this.store.redBagState = null
-        this.store.target = null
-      },
-      cancelRedBag() {
-        this.store.redBagState = null;
-      }
+        this.deals = arr
+        this.store.redBagState = 'show'
+      }).catch(err => {
+        console.log(err)
+      })
     },
-    attached() {
-      this.fetchDealList(this.store.terminal)
+    playAudio() {
+      setTimeout(() => {
+        let audio = document.getElementById('terminalAudio')
+        audio.play()
+      }, 200)
     },
-    watch: {
-      'store.redBagState' (val) {
-        if (val == 'show') {
-          this.playAudio()
-        }
-      }
+    exit() {
+      this.store.terminal = null
+      this.store.redBagState = null
+      this.store.target = null
     },
-    filters: {
-      toFixed2(val) {
-        let rst = val.toString().match(/\d+(.\d\d?)?/)
-        return rst ? rst[0] : val
+    cancelRedBag() {
+      this.store.redBagState = null;
+    }
+  },
+  attached() {
+    this.fetchDealList(this.store.terminal)
+  },
+  watch: {
+    'store.redBagState' (val) {
+      if (val === 'show') {
+        this.playAudio()
       }
     }
+  },
+  filters: {
+    toFixed2(val) {
+      let rst = val.toString().match(/\d+(.\d\d?)?/)
+      return rst ? rst[0] : val
+    }
+  }
 }
 </script>

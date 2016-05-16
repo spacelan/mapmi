@@ -222,7 +222,7 @@ export default {
       this.clear()
     },
     'store.redBagState' (val) {
-      if (val == 'show') {
+      if (val === 'show') {
         this.toRedBag()
       }
     }
